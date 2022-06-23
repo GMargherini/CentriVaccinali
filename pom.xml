@@ -4,6 +4,13 @@
   <artifactId>CentriVaccinali</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>CentriVaccinali</name>
+	<dependencies>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.4.0</version>
+		</dependency>
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
