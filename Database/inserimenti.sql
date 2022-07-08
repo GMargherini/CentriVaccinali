@@ -13,3 +13,8 @@ VALUES (?,?,?,?);
 -- inserisciEventiAvversi()
 INSERT INTO eventi_avversi (sintomo, severita, note)
 VALUES (?,?,?);
+
+-- inserimento eventi aggregati
+INSERT INTO aggregazioni_eventi(sintomo, nome, comune)
+select distinct sintomo, nome, comune
+from eventi_avversi
