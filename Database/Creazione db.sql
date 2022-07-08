@@ -33,12 +33,12 @@ CREATE TABLE eventi_avversi(
     note VARCHAR(256),
     nome VARCHAR(50) NOT NULL,
     comune VARCHAR(35) NOT NULL,
-    PRIMARY KEY(sintomo,ID_vaccinazione),
+    PRIMARY KEY(sintomo,user_id),
     FOREIGN KEY(nome,comune) REFERENCES centri_vaccinali
 );
 
 CREATE TABLE aggregazioni_eventi(
-    sintomo VARCHAR(30) NOT NULL REFERENCES eventi_avversi,
+    sintomo VARCHAR(30) NOT NULL,
     nome VARCHAR(50) NOT NULL,
     comune VARCHAR(35) NOT NULL,
     numero_segnalazioni INTEGER,
