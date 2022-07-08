@@ -11,8 +11,8 @@ INSERT INTO cittadini_registrati (ID_vaccinazione, user_ID, password, email)
 VALUES (?,?,?,?);
 
 -- inserisciEventiAvversi()
-INSERT INTO eventi_avversi (sintomo, severita, note, nome, comune)
-VALUES (?,?,?,?,?);
+INSERT INTO eventi_avversi 
+VALUES (?,?,?,?,?,?);
 
 -- inserimento eventi aggregati
 INSERT INTO aggregazioni_eventi(sintomo, nome, comune)
