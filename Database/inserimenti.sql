@@ -3,7 +3,7 @@ INSERT INTO centri_vaccinali (nome, comune, indirizzo, tipo)
 VALUES (?,?,?,?);
 
 -- registraVaccinato()
-INSERT INTO Vaccinati_? (ID_vaccinazione, codice_fiscale, nome_cognome, nome, comune, data_vaccinazione, tipo_vaccino)
+INSERT INTO vaccinati (ID_vaccinazione, codice_fiscale, nome_cognome, nome, comune, data_vaccinazione, tipo_vaccino)
 VALUES (?,?,?,?,?,?);
 
 -- registraCittadino()
