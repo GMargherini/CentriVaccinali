@@ -20,7 +20,7 @@ CREATE TABLE vaccinati(
 );
 
 CREATE TABLE cittadini_registrati(
-    ID_vaccinazione INTEGER UNIQUE NOT NULL REFERENCES vaccinati,
+    ID_vaccinazione INTEGER NOT NULL REFERENCES vaccinati,
     user_ID VARCHAR(30) PRIMARY KEY,
     password VARCHAR(30) NOT NULL,
     email VARCHAR(50) NOT NULL CHECK(email ~* '^[-\w.]+@[A-Z_.]+?[A-Z]{2,4}$')
@@ -28,7 +28,7 @@ CREATE TABLE cittadini_registrati(
 
 CREATE TABLE eventi_avversi(
     sintomo VARCHAR(30) NOT NULL,
-    ID_vaccinazione INTEGER NOT NULL REFERENCES vaccinati,
+    user_id VARCHAR(30) NOT NULL REFERENCES cittadini_registrati,
     severita INTEGER CHECK(severita>=1 AND severita <=5),
     note VARCHAR(256),
     nome VARCHAR(50) NOT NULL,
