@@ -20,8 +20,8 @@ CREATE TABLE vaccinati(
 );
 
 CREATE TABLE cittadini_registrati(
-    ID_vaccinazione INTEGER PRIMARY KEY REFERENCES vaccinati,
-    user_ID VARCHAR(30) NOT NULL,
+    ID_vaccinazione INTEGER UNIQUE NOT NULL REFERENCES vaccinati,
+    user_ID VARCHAR(30) PRIMARY KEY,
     password VARCHAR(30) NOT NULL,
     email VARCHAR(50) NOT NULL CHECK(email ~* '^[-\w.]+@[A-Z_.]+?[A-Z]{2,4}$')
 );
