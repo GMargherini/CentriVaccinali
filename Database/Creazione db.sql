@@ -28,12 +28,12 @@ CREATE TABLE cittadini_registrati(
 
 CREATE TABLE eventi_avversi(
     sintomo VARCHAR(30) NOT NULL,
-    user_id VARCHAR(30) NOT NULL REFERENCES cittadini_registrati,
+    id_vaccinazione INTEGER NOT NULL REFERENCES cittadini_registrati,
     severita INTEGER CHECK(severita>=1 AND severita <=5),
     note VARCHAR(256),
     nome VARCHAR(50) NOT NULL,
     comune VARCHAR(35) NOT NULL,
-    PRIMARY KEY(sintomo,user_id),
+    PRIMARY KEY(sintomo,id_vaccinazione),
     FOREIGN KEY(nome,comune) REFERENCES centri_vaccinali
 );
 
