@@ -1,4 +1,4 @@
-package database;
+package datamodel;
 
 public class CentroVaccinale {
 	private String nome;

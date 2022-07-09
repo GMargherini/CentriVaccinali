@@ -1,4 +1,4 @@
-package database;
+package datamodel;
 import java.sql.Date;
 public class Vaccinato {
 	private short idVaccinazione;

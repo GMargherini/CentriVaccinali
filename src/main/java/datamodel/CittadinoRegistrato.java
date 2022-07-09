@@ -1,4 +1,4 @@
-package database;
+package datamodel;
 
 public class CittadinoRegistrato {
 	private short idVaccinazione;
@@ -19,7 +19,7 @@ public class CittadinoRegistrato {
 	public String getUserId() {
 		return userId;
 	}
-	protected String getPassword() {
+	public String getPassword() {
 		return password;
 	}
 	public String getEmail() {
