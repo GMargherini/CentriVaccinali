@@ -52,17 +52,17 @@ public class Database {
 				+ "\n"
 				+ "CREATE TABLE eventi_avversi(\n"
 				+ "    sintomo VARCHAR(30) NOT NULL,\n"
-				+ "    user_id VARCHAR(30) NOT NULL REFERENCES cittadini_registrati,\n"
+				+ "    id_vaccinazione INTEGER NOT NULL REFERENCES cittadini_registrati,\n"
 				+ "    severita INTEGER CHECK(severita>=1 AND severita <=5),\n"
 				+ "    note VARCHAR(256),\n"
 				+ "    nome VARCHAR(50) NOT NULL,\n"
 				+ "    comune VARCHAR(35) NOT NULL,\n"
-				+ "    PRIMARY KEY(sintomo,user_id),\n"
+				+ "    PRIMARY KEY(sintomo,id_vaccinazione),\n"
 				+ "    FOREIGN KEY(nome,comune) REFERENCES centri_vaccinali\n"
 				+ ");\n"
 				+ "\n"
 				+ "CREATE TABLE aggregazioni_eventi(\n"
-				+ "    sintomo VARCHAR(30) NOT NULL REFERENCES eventi_avversi,\n"
+				+ "    sintomo VARCHAR(30) NOT NULL,\n"
 				+ "    nome VARCHAR(50) NOT NULL,\n"
 				+ "    comune VARCHAR(35) NOT NULL,\n"
 				+ "    numero_segnalazioni INTEGER,\n"
@@ -250,7 +250,7 @@ public class Database {
 		try {
 			PreparedStatement pstmnt=connection.prepareStatement(query);
 			pstmnt.setString(0, ea.getSintomo());
-			pstmnt.setString(1, ea.getUserId());
+			pstmnt.setShort(1, ea.getIdVaccinazione());
 			pstmnt.setInt(2, ea.getSeverita());
 			pstmnt.setString(3, ea.getNote());
 			pstmnt.setString(4, ea.getNomeCentro());
@@ -273,7 +273,7 @@ public class Database {
 			if(rs.first()) {
 				EventoAvverso eventoAvverso = new EventoAvverso(
 						rs.getString("sintomo"),
-						rs.getString("user_id"),
+						rs.getShort("id_vaccinazione"),
 						rs.getInt("severita"),
 						rs.getString("note"),
 						rs.getString("nome"),

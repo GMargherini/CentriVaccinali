@@ -2,15 +2,15 @@ package database;
 
 public class EventoAvverso {
 	private String sintomo;
-	private String user_id;
+	private short id_vaccinazione;
 	private int severita;
 	private String note;
 	private String nomeCentro;
 	private String comuneCentro;
 	
-	public EventoAvverso(String sintomo,String id,int severita,String note,String nome,String comune) {
+	public EventoAvverso(String sintomo,short id,int severita,String note,String nome,String comune) {
 		this.sintomo=sintomo;
-		user_id=id;
+		id_vaccinazione=id;
 		this.severita=severita;
 		this.note=note;
 		nomeCentro=nome;
@@ -19,8 +19,8 @@ public class EventoAvverso {
 	public String getSintomo() {
 		return sintomo;
 	}
-	public String getUserId() {
-		return user_id;
+	public short getIdVaccinazione() {
+		return id_vaccinazione;
 	}
 	public int getSeverita() {
 		return severita;
