@@ -8,7 +8,6 @@ public class Database {
 	
 	private Database(String user, String password, String host) throws SQLException {
 		connection=DriverManager.getConnection("jdbc:postgresql://"+host+"/centrivaccinali",user,password);
-		
 	}
 	
 	// Sfrutto il pattern Singleton per assicurarmi di gestire la 
@@ -19,6 +18,7 @@ public class Database {
 		}
 		return database;
 	}
+	
 	public void createDatabase() {
 		String query="CREATE TABLE centri_vaccinali(\n"
 				+ "    nome VARCHAR(50) NOT NULL,\n"
@@ -82,13 +82,10 @@ public class Database {
 		return null;
 	}
 	
-	public static void closeConnection() {
+	public void closeConnection() {
 		try {
 			connection.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (SQLException e) {}
 	}
 
 	public Connection getConnection() {

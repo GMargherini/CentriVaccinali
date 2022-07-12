@@ -3,24 +3,22 @@ package database;
 import java.sql.*;
 import java.util.ArrayList;
 
-import datamodel.AggregazioneEventi;
-import datamodel.CentroVaccinale;
-import datamodel.CittadinoRegistrato;
-import datamodel.EventoAvverso;
-import datamodel.Vaccinato;
+import datamodel.*;
 
 public class DatabaseProxy {
 	
 	Database db;
 	Connection connection;
+	PreparedStatement pstmnt;
+	
+	
 	public DatabaseProxy(String user, String password, String host) throws SQLException {
-		db=Database.getInstance(null, null, null);
+		db=Database.getInstance(user,password,host);
 		connection=db.getConnection();
 	}
 	public Boolean insertCentroVaccinale(CentroVaccinale centro) {
 		String query="INSERT INTO centri_vaccinali (nome, comune, indirizzo, tipo)\n"
 					+ "VALUES (?,?,?,?);";
-		PreparedStatement pstmnt;
 		try {
 			pstmnt = connection.prepareStatement(query);
 			pstmnt.setString(0, centro.getNome());
@@ -39,7 +37,7 @@ public class DatabaseProxy {
 					+ "FROM centri_vaccinali\n"
 					+ "WHERE nome LIKE('%?%')";
 		try {
-			PreparedStatement pstmnt=connection.prepareStatement(query);
+			pstmnt=connection.prepareStatement(query);
 			pstmnt.setString(0, nome);
 			ResultSet rs=pstmnt.executeQuery();
 			ArrayList<CentroVaccinale> centri=new ArrayList<CentroVaccinale>();
@@ -57,7 +55,7 @@ public class DatabaseProxy {
 					+ "FROM centri_vaccinali\n"
 					+ "WHERE comune=? AND tipo=?";
 		try {
-			PreparedStatement pstmnt=connection.prepareStatement(query);
+			pstmnt=connection.prepareStatement(query);
 			pstmnt.setString(0, comune);
 			pstmnt.setString(1, tipo);
 			ResultSet rs=pstmnt.executeQuery();
@@ -76,7 +74,7 @@ public class DatabaseProxy {
 					+ "FROM centri_vaccinali\n"
 					+ "WHERE nome=? AND comune=?";
 		try {
-			PreparedStatement pstmnt=connection.prepareStatement(query);
+			pstmnt=connection.prepareStatement(query);
 			pstmnt.setString(0, nome);
 			pstmnt.setString(1, comune);
 			ResultSet rs=pstmnt.executeQuery();
@@ -99,7 +97,6 @@ public class DatabaseProxy {
 	public Boolean insertVaccinato(Vaccinato vaccinato) {
 		String query="INSERT INTO vaccinati\n"
 				+ "VALUES (?,?,?,?,?,?);";
-		PreparedStatement pstmnt;
 		try {
 			pstmnt = connection.prepareStatement(query);
 			pstmnt.setShort(0, vaccinato.getIdVaccinazione());
@@ -120,7 +117,7 @@ public class DatabaseProxy {
 					+"FROM vaccinati\n"
 					+"WHERE id_vaccinazione=?";
 		try {
-			PreparedStatement pstmnt=connection.prepareStatement(query);
+			pstmnt=connection.prepareStatement(query);
 			pstmnt.setShort(0, id);
 			ResultSet rs=pstmnt.executeQuery();
 			if(rs.first()) {
@@ -144,7 +141,7 @@ public class DatabaseProxy {
 		String query = "INSERT INTO cittadini_registrati\n"
 					+ "VALUES (?,?,?,?);";
 		try {
-			PreparedStatement pstmnt=connection.prepareStatement(query);
+			pstmnt=connection.prepareStatement(query);
 			pstmnt.setShort(0, cr.getIdVaccinazione());
 			pstmnt.setString(1, cr.getUserId());
 			pstmnt.setString(2, cr.getPassword());
@@ -160,7 +157,7 @@ public class DatabaseProxy {
 					+"FROM cittadini_registrati\n"
 					+"WHERE user_id=?";
 		try {
-			PreparedStatement pstmnt=connection.prepareStatement(query);
+			pstmnt=connection.prepareStatement(query);
 			pstmnt.setString(0, id);
 			ResultSet rs=pstmnt.executeQuery();
 			if(rs.first()) {
@@ -182,7 +179,7 @@ public class DatabaseProxy {
 		String query = "INSERT INTO eventi_avversi\n"
 					+ "VALUES (?,?,?,?,?,?);";
 		try {
-			PreparedStatement pstmnt=connection.prepareStatement(query);
+			pstmnt=connection.prepareStatement(query);
 			pstmnt.setString(0, ea.getSintomo());
 			pstmnt.setShort(1, ea.getIdVaccinazione());
 			pstmnt.setInt(2, ea.getSeverita());
@@ -200,7 +197,7 @@ public class DatabaseProxy {
 				+"FROM eventi_avversi\n"
 				+"WHERE user_id=? AND sintomo=?";
 		try {
-			PreparedStatement pstmnt=connection.prepareStatement(query);
+			pstmnt=connection.prepareStatement(query);
 			pstmnt.setString(0, id);
 			pstmnt.setString(1, sintomo);
 			ResultSet rs=pstmnt.executeQuery();
@@ -226,7 +223,7 @@ public class DatabaseProxy {
 					+ "select distinct sintomo, nome, comune\n"
 					+ "from eventi_avversi";
 		try {
-			PreparedStatement pstmnt=connection.prepareStatement(query);
+			pstmnt=connection.prepareStatement(query);
 			pstmnt.executeUpdate();
 			return true;
 		} catch (SQLException e) {
@@ -238,7 +235,7 @@ public class DatabaseProxy {
 				+"FROM aggregazioni_eventi\n"
 				+"WHERE sintomo=? AND nome=? AND comune=?";
 		try {
-			PreparedStatement pstmnt=connection.prepareStatement(query);
+			pstmnt=connection.prepareStatement(query);
 			pstmnt.setString(0, sintomo);
 			pstmnt.setString(1, nome);
 			pstmnt.setString(2, comune);
@@ -267,7 +264,7 @@ public class DatabaseProxy {
 					+ "		FROM eventi_avversi ea, centri_vaccinali cv\n"
 					+ "		WHERE ea.nome=cv.nome AND ea.comune=cv.comune AND ae.sintomo=ea.sintomo)";
 		try {
-			PreparedStatement pstmnt=connection.prepareStatement(query);
+			pstmnt=connection.prepareStatement(query);
 			pstmnt.executeUpdate();
 			return true;
 		} catch (SQLException e) {
@@ -284,11 +281,14 @@ public class DatabaseProxy {
 					+ "			where nome=cv.nome and comune=cv.comune\n"
 					+ "			group by sintomo)";
 		try {
-			PreparedStatement pstmnt=connection.prepareStatement(query);
+			pstmnt=connection.prepareStatement(query);
 			pstmnt.executeUpdate();
 			return true;
 		} catch (SQLException e) {
 			return false;
 		}
+	}
+	public void closeConnection() {
+		db.closeConnection();
 	}
 }
