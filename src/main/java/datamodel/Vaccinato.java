@@ -1,5 +1,7 @@
 package datamodel;
 import java.sql.Date;
+
+import com.google.inject.internal.util.ToStringBuilder;
 public class Vaccinato {
 	private short idVaccinazione;
 	private String codiceFiscale;

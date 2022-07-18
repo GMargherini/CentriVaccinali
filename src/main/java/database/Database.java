@@ -12,6 +12,14 @@ public class Database {
 	
 	// Sfrutto il pattern Singleton per assicurarmi di gestire la 
 	// comunicazione con il db in modo centralizzato.
+	/**
+	 * Restituisce un'istanza del database.
+	 * @param user L'user del database.
+	 * @param password La password del database.
+	 * @param host L'host al quale collegarsi.
+	 * @return Un'istanza del databse.
+	 * @throws SQLException
+	 */
 	public static Database getInstance(String user, String password, String host) throws SQLException {
 		if (database == null) {
 			database = new Database(user,password,host);
@@ -19,7 +27,7 @@ public class Database {
 		return database;
 	}
 	
-	public void createDatabase() {
+	private void createDatabase() {
 		String query="CREATE TABLE centri_vaccinali(\n"
 				+ "    nome VARCHAR(50) NOT NULL,\n"
 				+ "    comune VARCHAR(35) NOT NULL,\n"
@@ -74,20 +82,25 @@ public class Database {
 		} catch (SQLException e) {}
 	}
 	
-	public ResultSet executeQuery(String query) throws SQLException{
+	private ResultSet executeQuery(String query) throws SQLException{
 		Statement statement=connection.createStatement();
 		if ( statement.execute(query) ) {
 			return statement.getResultSet();
 		}
 		return null;
 	}
-	
+	/**
+	 * Chiude la connessione al database.
+	 */
 	public void closeConnection() {
 		try {
 			connection.close();
 		} catch (SQLException e) {}
 	}
-
+	/**
+	 * Restituisce una connessione al database.
+	 * @return La connessione al database.
+	 */
 	public Connection getConnection() {
 		return connection;
 	}

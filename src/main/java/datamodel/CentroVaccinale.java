@@ -46,9 +46,4 @@ public class CentroVaccinale {
 	public double getMediaGenerale() {
 		return mediaGenerale;
 	}
-	
-	public String toString() {
-		//TODO implement
-		return "";
-	}
 }
