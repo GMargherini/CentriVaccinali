@@ -19,9 +19,11 @@ public class CentrePanel extends JPanel implements ActionListener{
 		data[0]= nome;
 		data[1]=comune;
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS) );
-		JButton register =new JButton("Registrati presso questo centro");
-		register.setAlignmentX(RIGHT_ALIGNMENT);
-		add(register);
+		JButton signal =new JButton("Segnala evento avverso");
+		signal.setAlignmentX(RIGHT_ALIGNMENT);
+		if(checkCentre()) {
+			add(signal);
+		}
 		
 		JPanel info= new JPanel(new GridLayout(3,2,50,20));
 		JLabel nomeLabel=new JLabel("Nome: "+data[0]);
@@ -49,6 +51,10 @@ public class CentrePanel extends JPanel implements ActionListener{
 		resultTable.setDefaultEditor(Object.class, null);
 		add(scrollPane);
 		
+	}
+
+	private boolean checkCentre() {
+		return true;
 	}
 
 	public void actionPerformed(ActionEvent e) {

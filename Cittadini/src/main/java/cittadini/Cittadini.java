@@ -6,6 +6,21 @@ public class Cittadini  {
 	Gui gui;
 	
     public static void main (String[] args){  
-    	Gui gui=new Gui();
-    }  
+    	new Cittadini().exec();
+    }
+    public void exec(){
+        Gui gui=new Gui(this);
+    }
+    public void cercaCentroVaccinale(String nome){
+
+    }
+    public void cercaCentroVaccinale(String comune, String tipo){
+
+    }
+    public void visualizzaInfoCentroVaccinale(){
+
+    }
+    public void registraCittadino(){
+
+    }
 }
