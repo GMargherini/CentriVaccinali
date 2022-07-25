@@ -2,7 +2,7 @@ package datamodel;
 
 public class EventoAvverso {
 	private String sintomo;
-	private short id_vaccinazione;
+	private short idVaccinazione;
 	private int severita;
 	private String note;
 	private String nomeCentro;
@@ -10,7 +10,7 @@ public class EventoAvverso {
 	
 	public EventoAvverso(String sintomo,short id,int severita,String note,String nome,String comune) {
 		this.sintomo=sintomo;
-		id_vaccinazione=id;
+		idVaccinazione =id;
 		this.severita=severita;
 		this.note=note;
 		nomeCentro=nome;
@@ -20,7 +20,7 @@ public class EventoAvverso {
 		return sintomo;
 	}
 	public short getIdVaccinazione() {
-		return id_vaccinazione;
+		return idVaccinazione;
 	}
 	public int getSeverita() {
 		return severita;
@@ -33,6 +33,17 @@ public class EventoAvverso {
 	}
 	public String getComuneCentro() {
 		return comuneCentro;
+	}
+
+	public String[] toArray(){
+		String[] res=new String[6];
+		res[0]=sintomo;
+		res[1]=String.valueOf(idVaccinazione);
+		res[2]=String.valueOf(severita);
+		res[3]=note;
+		res[4]=nomeCentro;
+		res[5]=comuneCentro;
+		return res;
 	}
 	
 }

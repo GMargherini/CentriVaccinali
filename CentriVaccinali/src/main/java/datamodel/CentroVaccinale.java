@@ -46,4 +46,15 @@ public class CentroVaccinale {
 	public double getMediaGenerale() {
 		return mediaGenerale;
 	}
+
+	public String[] toArray(){
+		String[] res=new String[6];
+		res[0]=nome;
+		res[1]=comune;
+		res[2]=indirizzo;
+		res[3]=tipo;
+		res[4]=String.valueOf(totaleSegnalazioni);
+		res[5]=String.valueOf(mediaGenerale);
+		return res;
+	}
 }

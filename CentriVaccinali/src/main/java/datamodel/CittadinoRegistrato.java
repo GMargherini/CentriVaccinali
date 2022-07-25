@@ -25,4 +25,13 @@ public class CittadinoRegistrato {
 	public String getEmail() {
 		return email;
 	}
+
+	public String[] toArray(){
+		String[] res=new String[4];
+		res[0]=String.valueOf(idVaccinazione);
+		res[1]=userId;
+		res[2]=password;
+		res[3]=email;
+		return res;
+	}
 }

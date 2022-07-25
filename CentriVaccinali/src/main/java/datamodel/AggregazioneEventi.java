@@ -19,5 +19,15 @@ public class AggregazioneEventi {
 		numeroSegnalazioni=nSeg;
 		mediaSeverita=medSev;
 	}
+
+	public String[] toArray(){
+		String[] res=new String[5];
+		res[0]=sintomo;
+		res[1]=nomeCentro;
+		res[2]=comuneCentro;
+		res[3]=String.valueOf(numeroSegnalazioni);
+		res[4]=String.valueOf(mediaSeverita);
+		return res;
+	}
 	
 }

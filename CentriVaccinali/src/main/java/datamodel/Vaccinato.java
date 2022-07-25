@@ -41,4 +41,16 @@ public class Vaccinato {
 	public String getTipoVaccino() {
 		return tipoVaccino;
 	}
+
+	public String[] toArray(){
+		String[] res=new String[7];
+		res[0]=String.valueOf(idVaccinazione);
+		res[1]=codiceFiscale;
+		res[2]=nomeCognome;
+		res[3]=nomeCentro;
+		res[4]=comuneCentro;
+		res[5]=dataVaccinazione.toString();
+		res[6]=tipoVaccino;
+		return res;
+	}
 }
