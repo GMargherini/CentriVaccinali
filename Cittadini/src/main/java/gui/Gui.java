@@ -26,9 +26,11 @@ public class Gui extends JFrame implements ActionListener{
 	public Gui(Cittadini cittadini) {
 		homePanel=new HomePanel(this);
 		searchPanel=new SearchPanel(this);
+		UserPanel userPanel = new UserPanel(this);
 		setLayout(cardLayout);
 		cards.add(homePanel, "home");
 		cards.add(searchPanel,"search");
+		cards.add(userPanel,"user");
 		cardLayout.setVgap(10);
 		cardLayout.setHgap(10);
 		cardLayout=(CardLayout) cards.getLayout();
@@ -73,14 +75,14 @@ public class Gui extends JFrame implements ActionListener{
 			}
 			changePanel((String) command);
 		}
-		if(command.equals("register")){
+		else if(command.equals("register")){
 			if(registerPanel==null){
 				registerPanel=new RegisterPanel(this);
 				cards.add(registerPanel,command);
 			}
 			changePanel((String) command);
 		}
-		if(command.equals("home")){
+		else if(command.equals("home")){
 			changePanel("home");
 		}
 	}
