@@ -1,6 +1,9 @@
 package datamodel;
 
-public class AggregazioneEventi {
+import java.io.Serializable;
+
+public class AggregazioneEventi implements Serializable {
+
 	private String sintomo;
 	private String nomeCentro;
 	private String comuneCentro;

@@ -1,6 +1,8 @@
 package datamodel;
 
-public class EventoAvverso {
+import java.io.Serializable;
+
+public class EventoAvverso implements Serializable {
 	private String sintomo;
 	private short idVaccinazione;
 	private int severita;

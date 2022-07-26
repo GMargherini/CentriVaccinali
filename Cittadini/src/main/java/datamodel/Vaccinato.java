@@ -1,6 +1,7 @@
 package datamodel;
-import java.sql.Date;
-public class Vaccinato {
+import java.io.Serializable;
+import java.util.Date;
+public class Vaccinato implements Serializable {
 	private short idVaccinazione;
 	private String codiceFiscale;
 	private String nomeCognome;

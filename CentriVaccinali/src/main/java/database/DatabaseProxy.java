@@ -135,7 +135,7 @@ public class DatabaseProxy {
 			pstmnt.setString(3, vaccinato.getNomeCognome());
 			pstmnt.setString(4, vaccinato.getNomeCentro());
 			pstmnt.setString(5, vaccinato.getComuneCentro());
-			pstmnt.setDate(6, vaccinato.getDataVaccinazione());
+			pstmnt.setDate(6, new Date(vaccinato.getDataVaccinazione().getTime()));
 			pstmnt.setString(7, vaccinato.getTipoVaccino());
 			pstmnt.executeUpdate();
 			return true;

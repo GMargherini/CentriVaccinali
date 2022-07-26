@@ -1,6 +1,8 @@
 package datamodel;
 
-public class CittadinoRegistrato {
+import java.io.Serializable;
+
+public class CittadinoRegistrato implements Serializable {
 	private short idVaccinazione;
 	private String userId;
 	private String password;
