@@ -9,23 +9,23 @@ public interface MultiServer extends Remote {
 
 	String[][] comuneTipoCentriServ() throws RemoteException;
 
-	String[] centroVaccinaleServ(String centro) throws RemoteException;
+	String[] centroVaccinaleServ(String[] centro) throws RemoteException;
 	
 	Boolean newVaccinato() throws RemoteException;
 	
-	String[] vaccinatoServ(String vaccinato) throws RemoteException;
+	String[] vaccinatoServ(String[] vaccinato) throws RemoteException;
 	
 	Boolean newCittadinoRegistrato() throws RemoteException;
 	
-	String[] cittadinoRegistratoServ(String cittadinoRegistrato) throws RemoteException;
+	String[] cittadinoRegistratoServ(String[] cittadinoRegistrato) throws RemoteException;
 	
 	Boolean newEventoAvverso() throws RemoteException;
 	
-	String[] eventoAvversoServ(String eventoAvverso) throws RemoteException;
+	String[] eventoAvversoServ(String[] eventoAvverso) throws RemoteException;
 	
 	Boolean newAggregazioneEventi() throws RemoteException;
 	
-	String[] aggregazioneEventi(String aggregazioneEventi) throws RemoteException;
+	String[] aggregazioneEventi(String[] aggregazioneEventi) throws RemoteException;
 	
 	Boolean updateAggregazioneEventiServ() throws RemoteException;
 	
