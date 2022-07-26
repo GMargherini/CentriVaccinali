@@ -1,32 +1,42 @@
 package gui;
 
+import cittadini.Cittadini;
+import datamodel.*;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.table.DefaultTableModel;
 
 
-public class SearchPanel extends JPanel implements ActionListener {
+public class SearchPanel extends JPanel implements ActionListener{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	Gui container;
+	Cittadini client;
 	String[][] data;
+	Boolean ricercaPerNome=true;
 	JPanel cards=new JPanel(new CardLayout());
 	CardLayout cardLayout=new CardLayout();
 	JComboBox<String> cb=new JComboBox<String>();
+	JTextField searchNome;
+	JTextField searchComune;
+	JTextField searchTipo;
 	JTable resultTable;
-	public SearchPanel(Gui container) {
+	public SearchPanel(Gui container, Cittadini client) {
 		this.container=container;
+		this.client=client;
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		JButton searchBtn1 = new JButton("cerca");
 		JButton searchBtn2 = new JButton("cerca");
-		JTextField searchNome=new JTextField();
-		JTextField searchComune=new JTextField();
-		JTextField searchTipo=new JTextField();
-		JButton back=new JButton("indietro");
+		searchNome=new JTextField();
+		searchComune=new JTextField();
+		searchTipo=new JTextField();
 		
 		
 		String[] columnNames= {"Nome","Comune","Tipo"};
@@ -43,9 +53,7 @@ public class SearchPanel extends JPanel implements ActionListener {
 		resultTable.setDefaultEditor(Object.class, null);
 		resultTable.getSelectionModel().addListSelectionListener(new TableSelectionHandler());
 		add(scrollPane);
-    	
-		
-		
+
 		top.setLayout(new BoxLayout(top, BoxLayout.X_AXIS));
 		top.add(Box.createHorizontalGlue());
 		top.add(cb);
@@ -58,7 +66,11 @@ public class SearchPanel extends JPanel implements ActionListener {
 		comuneTipo.add(searchComune);
 		comuneTipo.add(searchTipo);
 		comuneTipo.add(searchBtn2);
-		
+
+		searchBtn1.setActionCommand("search");
+		searchBtn2.setActionCommand("search");
+		searchBtn1.addActionListener(this);
+		searchBtn2.addActionListener(this);
 		middle.setLayout(cardLayout);
 		cards.add(nome,"Ricerca per nome");
 		cards.add(comuneTipo,"Ricerca per comune e tipo");
@@ -75,21 +87,37 @@ public class SearchPanel extends JPanel implements ActionListener {
 		add(middle);
 		add(Box.createRigidArea(new Dimension(20,20)));
 		add(scrollPane);
-		back.setActionCommand("home");
-		back.addActionListener(this);
 	}
 	public void actionPerformed(ActionEvent e) {
 		Object command=e.getActionCommand();
 		System.out.println(command);
 		if(command.equals("search")) {
-			container.changePanel("search");
+			if(ricercaPerNome){
+				ArrayList<CentroVaccinale>result=client.cercaCentroVaccinale(searchNome.getText());
+				int size=result.size();
+				data=new String[size][6];
+				for(int i=0;i<size;i++){
+					data[i]=result.get(i).toArray();
+				}
+			}
+			else{
+				ArrayList<CentroVaccinale>result=client.cercaCentroVaccinale(searchComune.getText(),searchTipo.getText());
+				int size=result.size();
+				data=new String[size][6];
+				for(int i=0;i<size;i++){
+					data[i]=result.get(i).toArray();
+				}
+			}
+			DefaultTableModel model=(DefaultTableModel) resultTable.getModel();
+			model.fireTableDataChanged();
+			resultTable.setModel(model);
 		}
 		if(command.equals("comboBoxChanged")) {
 			cardLayout.show(cards, cb.getSelectedItem().toString());
+			ricercaPerNome=cb.getSelectedItem().toString().equals("Ricerca per nome");
 		}
-		else {}
 	}
-	
+
 	private class TableSelectionHandler implements ListSelectionListener{
 
 		public void valueChanged(ListSelectionEvent e) {

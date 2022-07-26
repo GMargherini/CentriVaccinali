@@ -1,5 +1,7 @@
 package gui;
 
+import cittadini.Cittadini;
+import datamodel.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -11,25 +13,26 @@ public class CentrePanel extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	Gui container;
 	String[] columnNames= {"Sintomo","Numero segnalazioni","Severità media"};
-	String[] data=new String[6];
+	CentroVaccinale infoCentro;
 	String[][] segnalazioni;
 
-	public CentrePanel(Gui container, String nome, String comune) {
+	public CentrePanel(Gui container, Cittadini client, String nome, String comune) {
 		this.container=container;
-		data[0]= nome;
-		data[1]=comune;
+		infoCentro=client.visualizzaInfoCentroVaccinale(nome,comune);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS) );
-		JButton register =new JButton("Registrati presso questo centro");
-		register.setAlignmentX(RIGHT_ALIGNMENT);
-		add(register);
+		JButton signal =new JButton("Segnala evento avverso");
+		signal.setAlignmentX(RIGHT_ALIGNMENT);
+		if(checkCentre()) {
+			add(signal);
+		}
 		
 		JPanel info= new JPanel(new GridLayout(3,2,50,20));
-		JLabel nomeLabel=new JLabel("Nome: "+data[0]);
-		JLabel comuneLabel=new JLabel("Comune: "+data[1]);
-		JLabel indirizzoLabel=new JLabel("Indirizzo: "+data[2]);
-		JLabel tipoLabel=new JLabel("Tipo: "+data[3]);
-		JLabel segnalazioniLabel=new JLabel("Numero segnalazioni: "+ data[4]);
-		JLabel mediaLabel=new JLabel("Severità media: "+data[5]);
+		JLabel nomeLabel=new JLabel("Nome: "+infoCentro.getNome());
+		JLabel comuneLabel=new JLabel("Comune: "+infoCentro.getComune());
+		JLabel indirizzoLabel=new JLabel("Indirizzo: "+infoCentro.getIndirizzo());
+		JLabel tipoLabel=new JLabel("Tipo: "+infoCentro.getTipo());
+		JLabel segnalazioniLabel=new JLabel("Numero segnalazioni: "+infoCentro.getTotaleSegnalazioni());
+		JLabel mediaLabel=new JLabel("Severità media: "+infoCentro.getMediaGenerale());
 		
 		info.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 		info.add(nomeLabel);
@@ -49,6 +52,10 @@ public class CentrePanel extends JPanel implements ActionListener{
 		resultTable.setDefaultEditor(Object.class, null);
 		add(scrollPane);
 		
+	}
+
+	private boolean checkCentre() {
+		return true;
 	}
 
 	public void actionPerformed(ActionEvent e) {

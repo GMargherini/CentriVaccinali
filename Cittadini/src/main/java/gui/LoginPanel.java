@@ -1,5 +1,8 @@
 package gui;
 
+import cittadini.Cittadini;
+import datamodel.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -10,13 +13,17 @@ public class LoginPanel extends JPanel implements ActionListener{
 	 */
 	private static final long serialVersionUID = 1L;
 	Gui container;
-	public LoginPanel(Gui gui) {
+	Cittadini client;
+	JTextField userTextField;
+	JTextField passwordTextField;
+	public LoginPanel(Gui gui, Cittadini client) {
 		container=gui;
+		this.client=client;
 		setLayout(new GridBagLayout());
 		JLabel userLabel=new JLabel("Username: ");
 		JLabel passwordLabel=new JLabel("Password: ");
-		JTextField userTextField=new JTextField();
-		JTextField passwordTextField=new JTextField();
+		userTextField=new JTextField();
+		passwordTextField=new JTextField();
 		JButton loginButton=new JButton("Accedi");
 		GridBagConstraints gbc=new GridBagConstraints();
 		
@@ -48,13 +55,19 @@ public class LoginPanel extends JPanel implements ActionListener{
 		loginButton.addActionListener(this);
 		
 	}
-	private void userExists() {
-		
+	private Boolean isUserValid(String id,String password) {
+		CittadinoRegistrato user=client.visualizzaInfoUtente(id);
+		if(user!=null && password.equals(user.getPassword())){
+			client.setUtente(user);
+			return true;
+		}
+		return false;
 	}
 	public void actionPerformed(ActionEvent e) {
 		Object command=e.getActionCommand();
 		System.out.println(command);
-		if(command.equals("login")) {
+		if(command.equals("login") && isUserValid(userTextField.getText(),passwordTextField.getText())) {
+			container.logIn(userTextField.getText());
 			container.changePanel("user");
 		}
 	}

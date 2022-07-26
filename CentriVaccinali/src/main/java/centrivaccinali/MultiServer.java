@@ -1,25 +1,35 @@
-/*import java.io.*;
-import java.net.*;
+package centrivaccinali;
 
-public class MultiServer {
-	public static final int PORT = 2503;
+import datamodel.*;
 
-	public static void main(String[] args) throws IOException {
-		ServerSocket serverSocket = new ServerSocket(PORT);
-		System.out.println("Server started")
-		
-		try {
-			while (true) {
-				Socket socket = serverSocket.accept();
-				try {
-					new OneServer(socket);
-				} catch (Exception e) {
-					socket.close();
-					throw e;
-				}
-			}
-		} finally {
-			socket.close();
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
 
-	}
-}*/
+public interface MultiServer extends Remote {
+
+	ArrayList<CentroVaccinale> nomeCentriServ(String nome) throws RemoteException;
+
+	ArrayList<CentroVaccinale> comuneTipoCentriServ(String comune, String tipo) throws RemoteException;
+
+	CentroVaccinale centroVaccinaleServ(String nome, String comune) throws RemoteException;
+
+	Vaccinato vaccinatoServ(String id) throws RemoteException;
+
+	Boolean newCittadinoRegistrato(CittadinoRegistrato cittadinoRegistrato) throws RemoteException;
+
+	CittadinoRegistrato cittadinoRegistratoServ(String id) throws RemoteException;
+
+	Boolean newEventoAvverso(EventoAvverso eventoAvverso) throws RemoteException;
+
+	EventoAvverso eventoAvversoServ(String sintomo, String id) throws RemoteException;
+
+	Boolean newAggregazioneEventi() throws RemoteException;
+
+	AggregazioneEventi aggregazioneEventi(String sintomo, String nome, String comune) throws RemoteException;
+
+	Boolean updateAggregazioneEventiServ() throws RemoteException;
+
+	Boolean updateCentriVaccinaliServ() throws RemoteException;
+
+}

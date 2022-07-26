@@ -1,39 +1,48 @@
 package gui;
 
+import cittadini.Cittadini;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class Gui extends JFrame {
+public class Gui extends JFrame implements ActionListener{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	int width=700;
-	int height=500;
-	JPanel homePanel;
-	JPanel searchPanel;
-	JPanel centrePanel;
-	JPanel loginPanel;
-	JPanel cards=new JPanel(new CardLayout());
-	CardLayout cardLayout=new CardLayout();
+	private Cittadini client;
+	private int width=700;
+	private int height=500;
+	private JPanel homePanel;
+	private JPanel searchPanel;
+	private JPanel centrePanel;
+	private JPanel loginPanel;
+	private JPanel registerPanel;
+	private JMenu menuUtente;
+	private JMenuItem login;
+	private JMenuItem register;
+	private JPanel cards=new JPanel(new CardLayout());
+	private CardLayout cardLayout=new CardLayout();
 	
-	public Gui() {
+	public Gui(Cittadini cittadini) {
+		client=cittadini;
 		homePanel=new HomePanel(this);
-		searchPanel=new SearchPanel(this);
-		loginPanel=new LoginPanel(this);
+		searchPanel=new SearchPanel(this,client);
+		UserPanel userPanel = new UserPanel(this);
 		setLayout(cardLayout);
 		cards.add(homePanel, "home");
-		cards.add(searchPanel, "search");
-		cards.add(loginPanel,"login");
+		cards.add(searchPanel,"search");
+		cards.add(userPanel,"user");
 		cardLayout.setVgap(10);
 		cardLayout.setHgap(10);
 		cardLayout=(CardLayout) cards.getLayout();
 		add(cards);
 		JMenuBar menuBar=new JMenuBar();
-    	JMenu menuUtente=new JMenu("Utente");
-    	JMenuItem login=new JMenuItem("accedi");
+    	menuUtente=new JMenu("Utente");
+    	login=new JMenuItem("accedi");
+		register=new JMenuItem("registrati");
     	JButton home=new JButton("Home");
     	setTitle("Cittadini");
     	home.setOpaque(false);
@@ -44,10 +53,13 @@ public class Gui extends JFrame {
     	menuBar.add(Box.createHorizontalGlue());
     	menuBar.add(menuUtente);
     	menuUtente.add(login);
+		menuUtente.add(register);
     	home.setActionCommand("home");
-    	home.addActionListener(new EventListener());
+    	home.addActionListener(this);
     	login.setActionCommand("login");
-    	login.addActionListener(new EventListener());
+    	login.addActionListener(this);
+		register.setActionCommand("register");
+		register.addActionListener(this);
     	setJMenuBar(menuBar);
 		setSize(width,height);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,22 +67,49 @@ public class Gui extends JFrame {
 		setVisible(true);
 		setResizable(false);
 	}
-	
-	private class EventListener implements ActionListener{
-		public void actionPerformed(ActionEvent e) {
-			Object command=e.getActionCommand();
-			System.out.println(command);
-			if(command.equals("search")) {
-				changePanel("search");
+	protected void logIn(String userId){
+		menuUtente.setName(userId);
+		login.setName("Info utente");
+		login.setActionCommand("user");
+		register.setName("Esci");
+		register.setActionCommand("logout");
+	}
+	protected void logout(){
+		menuUtente=new JMenu("Utente");
+		login=new JMenuItem("accedi");
+		register=new JMenuItem("registrati");
+		login.setActionCommand("login");
+		register.setActionCommand("register");
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object command=e.getActionCommand();
+		System.out.println(command);
+		if(command.equals("login")) {
+			if(loginPanel==null){
+				loginPanel=new LoginPanel(this,client);
+				cards.add(loginPanel,command);
 			}
-			if(command.equals("login")) {
-				changePanel("login");
+			changePanel((String) command);
+		}
+		else if(command.equals("register")){
+			if(registerPanel==null){
+				registerPanel=new RegisterPanel(this);
+				cards.add(registerPanel,command);
 			}
-			else {
-				changePanel("home");
-			}
+			changePanel((String) command);
+		}
+		else if(command.equals("user")){
+			changePanel((String) command);
+		}
+		else if(command.equals("logout")){
+			logout();
+		}
+		else if(command.equals("home")){
+			changePanel("home");
 		}
 	}
+
 	protected void changePanel(String panel) {
 		cardLayout.show(cards, panel);
 	}

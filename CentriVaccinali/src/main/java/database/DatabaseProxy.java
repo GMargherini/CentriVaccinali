@@ -18,7 +18,7 @@ public class DatabaseProxy {
 	}
 	/**
 	 * Inserisce un centro vaccinale nel database.
-	 * @param centro il centro  da inserire.
+	 * @param centro il centro da inserire.
 	 * @return <code>true</code> se l'operazione va a buon fine,  <code>false</code> altrimenti.
 	 */
 	public Boolean insertCentroVaccinale(CentroVaccinale centro) {
@@ -40,7 +40,7 @@ public class DatabaseProxy {
 	/**
 	 * Restituisce una lista di centri vaccinali che contengono <code>nome</code> nel nome.
 	 * @param nome La stringa da cercare
-	 * @return un <code>ArrayList</code> di <code>CentroVaccinale</code>
+	 * @return Un'<code>ArrayList</code> di <code>CentroVaccinale</code>
 	 */
 	public ArrayList<CentroVaccinale> listCentriVaccinali(String nome){
 		String query="SELECT nome, comune\n"
@@ -65,7 +65,7 @@ public class DatabaseProxy {
 	 * Restituisce una lista di centri vaccinali con comune uguale a <code>comune</code> e tipo uguale a <code>tipo</code>.
 	 * @param comune Il comune del centro da cercare
 	 * @param tipo Il tipo del centro da cercare
-	 * @return un <code>ArrayList</code> di <code>CentroVaccinale</code>
+	 * @return Un'<code>ArrayList</code> di <code>CentroVaccinale</code>
 	 */
 	public ArrayList<CentroVaccinale> listCentriVaccinali(String comune,String tipo){
 		String query="SELECT nome, comune\n"
@@ -276,6 +276,38 @@ public class DatabaseProxy {
 				return eventoAvverso;
 			}
 			return null;
+		} catch (SQLException e) {
+			return null;
+		}
+	}
+
+	/**
+	 *  Restituisce una lista di eventi avversi relativi all'utente <code>id</code>.
+	 * @param id L'user id del cittadino
+	 * @return Un'<code>ArrayList</code> di <code>EventoAvverso</code>
+	 */
+	public ArrayList<EventoAvverso> listEventiAvversi(String id){
+		String query = "SELECT *\n"
+				+"FROM eventi_avversi\n"
+				+"WHERE user_id=?";
+		try {
+			pstmnt=connection.prepareStatement(query);
+			pstmnt.setString(1, id);
+			ResultSet rs=pstmnt.executeQuery();
+			ArrayList<EventoAvverso> result=new ArrayList<>();
+			while(rs.next()) {
+				EventoAvverso eventoAvverso = new EventoAvverso(
+						rs.getString("sintomo"),
+						rs.getShort("id_vaccinazione"),
+						rs.getInt("severita"),
+						rs.getString("note"),
+						rs.getString("nome"),
+						rs.getString("comune")
+				);
+				rs.close();
+				result.add(eventoAvverso);
+			}
+			return result;
 		} catch (SQLException e) {
 			return null;
 		}
