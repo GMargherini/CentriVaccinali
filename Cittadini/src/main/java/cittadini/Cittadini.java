@@ -72,7 +72,7 @@ public class Cittadini  {
             throw new RuntimeException(e);
         }
     }
-    public  Vaccinato visualizzaInfoVaccinato(String idVaccinazione){
+    public  Vaccinato visualizzaInfoVaccinato(short idVaccinazione){
         try {
             return server.vaccinatoServ(idVaccinazione);
         } catch (RemoteException e) {
