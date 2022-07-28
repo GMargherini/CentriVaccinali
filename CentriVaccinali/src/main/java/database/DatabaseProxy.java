@@ -286,13 +286,13 @@ public class DatabaseProxy {
 	 * @param id L'user id del cittadino
 	 * @return Un'<code>ArrayList</code> di <code>EventoAvverso</code>
 	 */
-	public ArrayList<EventoAvverso> listEventiAvversi(String id){
+	public ArrayList<EventoAvverso> listEventiAvversi(short id){
 		String query = "SELECT *\n"
 				+"FROM eventi_avversi\n"
-				+"WHERE user_id=?";
+				+"WHERE id_vaccinazione=?";
 		try {
 			pstmnt=connection.prepareStatement(query);
-			pstmnt.setString(1, id);
+			pstmnt.setShort(1, id);
 			ResultSet rs=pstmnt.executeQuery();
 			ArrayList<EventoAvverso> result=new ArrayList<>();
 			while(rs.next()) {
@@ -304,9 +304,9 @@ public class DatabaseProxy {
 						rs.getString("nome"),
 						rs.getString("comune")
 				);
-				rs.close();
 				result.add(eventoAvverso);
 			}
+			rs.close();
 			return result;
 		} catch (SQLException e) {
 			return null;
@@ -330,23 +330,22 @@ public class DatabaseProxy {
 	}
 	
 	/**
-	 * Restituisce i dati aggregati relativi all'evento avverso identificato da <code>sintomo</code> relativamente al centro vaccinale identificato da <code>nome</code> e <code>comune</code>.
-	 * @param sintomo Il nome del sintomo.
+	 * Restituisce i dati aggregati relativi al centro vaccinale identificato da <code>nome</code> e <code>comune</code>.
 	 * @param nome Il nome del centro vaccinale
 	 * @param comune il comune del centro vaccinale
 	 * @return Un oggetto di tipo<code>AggregazioneEventi</code> se gli eventi relativi al centro specificato esistono nel database, <code>null</code> altrimenti.
 	 */
-	public AggregazioneEventi selectAggregazioneEventi(String sintomo, String nome,String comune) {
+	public ArrayList<AggregazioneEventi> listAggregazioniEventi(String nome,String comune) {
 		String query = "SELECT *\n"
 				+"FROM aggregazioni_eventi\n"
-				+"WHERE sintomo=? AND nome=? AND comune=?";
+				+"WHERE nome=? AND comune=?";
 		try {
 			pstmnt=connection.prepareStatement(query);
-			pstmnt.setString(1, sintomo);
-			pstmnt.setString(2, nome);
-			pstmnt.setString(3, comune);
+			pstmnt.setString(1, nome);
+			pstmnt.setString(2, comune);
 			ResultSet rs=pstmnt.executeQuery();
-			if(rs.next()) {
+			ArrayList<AggregazioneEventi> result=new ArrayList<>();
+			while(rs.next()) {
 				AggregazioneEventi aggregazioneEventi = new AggregazioneEventi(
 						rs.getString("sintomo"),
 						rs.getString("nome"),
@@ -354,10 +353,11 @@ public class DatabaseProxy {
 						rs.getInt("numero_segnalazioni"),
 						rs.getDouble("media_severita")
 						);
-				rs.close();
-				return aggregazioneEventi;
+				result.add(aggregazioneEventi);
+				System.out.println(aggregazioneEventi);
 			}
-			return null;
+			rs.close();
+			return result;
 		} catch (SQLException e) {
 			return null;
 		}
@@ -367,13 +367,18 @@ public class DatabaseProxy {
 	 * @return <code>true</code> se l'operazione va a buon fine,  <code>false</code> altrimenti.
 	 */
 	public Boolean updateAggregazioniEventi() {
-		String query = "UPDATE aggregazioni_eventi ae\n"
-					+ "SET numero_segnalazioni=(SELECT COUNT(*)\n"
-					+ "		FROM centri_vaccinali cv, eventi_avversi ea\n"
-					+ "		WHERE ea.nome=cv.nome AND ea.comune=cv.comune),\n"
-					+ "	media_severita=(SELECT AVG(severita)\n"
-					+ "		FROM eventi_avversi ea, centri_vaccinali cv\n"
-					+ "		WHERE ea.nome=cv.nome AND ea.comune=cv.comune AND ae.sintomo=ea.sintomo)";
+		String query =
+				"""		
+      					delete from aggregazioni_eventi;
+						insert into aggregazioni_eventi(sintomo,nome,comune) 
+						select distinct sintomo,nome,comune from eventi_avversi;
+						UPDATE aggregazioni_eventi ae
+						SET numero_segnalazioni=(SELECT COUNT(*)
+								FROM centri_vaccinali cv, eventi_avversi ea
+								WHERE ea.nome=cv.nome AND ea.comune=cv.comune AND ae.sintomo=ea.sintomo),
+							media_severita=(SELECT AVG(severita)
+								FROM eventi_avversi ea, centri_vaccinali cv
+								WHERE ea.nome=cv.nome AND ea.comune=cv.comune AND ae.sintomo=ea.sintomo)""";
 		try {
 			pstmnt=connection.prepareStatement(query);
 			pstmnt.executeUpdate();
@@ -388,14 +393,15 @@ public class DatabaseProxy {
 	 * @return <code>true</code> se l'operazione va a buon fine,  <code>false</code> altrimenti.
 	 */
 	public Boolean updateCentriVaccinali() {
-		String query = "update centri_vaccinali cv\n"
-					+ "set totale_segnalazioni=(select sum(numero_segnalazioni)\n"
-					+ "			from aggregazioni_eventi\n"
-					+ "			where nome=cv.nome and comune=cv.comune),\n"
-					+ "	media_generale=(select sum(media_severita * numero_segnalazioni)/sum(numero_segnalazioni)\n"
-					+ "			from aggregazioni_eventi\n"
-					+ "			where nome=cv.nome and comune=cv.comune\n"
-					+ "			group by sintomo)";
+		String query = """
+				update centri_vaccinali cv
+								set totale_segnalazioni=(select distinct sum(numero_segnalazioni)
+											from aggregazioni_eventi
+											where nome=cv.nome and comune=cv.comune),
+									media_generale=(select distinct sum(media_severita * numero_segnalazioni)/sum(numero_segnalazioni)
+											from aggregazioni_eventi
+											where nome=cv.nome and comune=cv.comune
+											group by sintomo)""";
 		try {
 			pstmnt=connection.prepareStatement(query);
 			pstmnt.executeUpdate();

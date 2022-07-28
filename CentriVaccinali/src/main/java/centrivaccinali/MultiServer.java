@@ -26,9 +26,9 @@ public interface MultiServer extends Remote {
 
 	Boolean newAggregazioneEventi() throws RemoteException;
 	
-	ArrayList<EventoAvverso> eventiAvversi(String id) throws RemoteException;
+	ArrayList<EventoAvverso> eventiAvversi(short id) throws RemoteException;
 
-	AggregazioneEventi aggregazioneEventi(String sintomo, String nome, String comune) throws RemoteException;
+	ArrayList<AggregazioneEventi> aggregazioniEventi (String nome, String comune) throws RemoteException;
 
 	Boolean updateAggregazioneEventiServ() throws RemoteException;
 

@@ -1,162 +1,114 @@
 package centrivaccinali;
 
+import database.DatabaseProxy;
 import datamodel.*;
 
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 
 public class MultiServerImpl extends UnicastRemoteObject implements MultiServer{
-	public MultiServerImpl() throws RemoteException {
+	DatabaseProxy db;
+
+	public MultiServerImpl() throws RemoteException, SQLException {
 		super();
 	}
-	
-	public ArrayList<CentroVaccinale> nomeCentriServ(String nome) throws RemoteException; {
+
+	public ArrayList<CentroVaccinale> nomeCentriServ(String nome) throws RemoteException {
 		ArrayList<CentroVaccinale> centri = null;
-		try {
-			centri = DatabaseProxy.listCentriVaccinali(nome);			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		centri = db.listCentriVaccinali(nome);
 		return centri;
 	}
 
-	public ArrayList<CentroVaccinale> comuneTipoCentriServ(String comune, String tipo) throws RemoteException; {
+	public ArrayList<CentroVaccinale> comuneTipoCentriServ(String comune, String tipo) throws RemoteException {
 		ArrayList<CentroVaccinale> centro = null;
-		try {
-			centro = DatabaseProxy.listCentriVaccinali(comune, tipo);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		centro = db.listCentriVaccinali(comune, tipo);
 		return centro;
 	}
 
-	public CentroVaccinale centroVaccinaleServ(String nome, String comune) throws RemoteException; {
+	public CentroVaccinale centroVaccinaleServ(String nome, String comune) throws RemoteException {
 		CentroVaccinale centroScelto = null;
-		try {
-			centroScelto = DatabaseProxy.selectCentroVaccinale(nome, comune);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		centroScelto = db.selectCentroVaccinale(nome, comune);
 		return centroScelto;
 	}	
 
-	public Vaccinato vaccinatoServ(short id) throws RemoteException; {
+	public Vaccinato vaccinatoServ(short id) throws RemoteException {
 		Vaccinato vax = null;
-		try {
-			vax = DatabaseProxy.selectVaccinato(id);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return vax;		
+		vax = db.selectVaccinato(id);
+		return vax;
 	}
 
-	public Boolean newCittadinoRegistrato(CittadinoRegistrato cittadinoRegistrato) throws RemoteException; {
+	public Boolean newCittadinoRegistrato(CittadinoRegistrato cittadinoRegistrato) throws RemoteException {
 		Boolean cr = false;
-		try {
-			DatabaseProxy.insertCittadinoRegistrato(cittadinoRegistrato);
-			cr = true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		db.insertCittadinoRegistrato(cittadinoRegistrato);
+		cr = true;
 		return cr;
 	}
 
-	public CittadinoRegistrato cittadinoRegistratoServ(String id) throws RemoteException; {
+	public CittadinoRegistrato cittadinoRegistratoServ(String id) throws RemoteException {
 		CittadinoRegistrato crScelto = null;
-		try {
-			crScelto = DatabaseProxy.selectCittadinoRegistrato(id);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return crScelto;				
+		crScelto = db.selectCittadinoRegistrato(id);
+		return crScelto;
 	}
 
-	public Boolean newEventoAvverso(EventoAvverso eventoAvverso) throws RemoteException; {
+	public Boolean newEventoAvverso(EventoAvverso eventoAvverso) throws RemoteException {
 		Boolean ea = false;
-		try {
-			DatabaseProxy.insertEventoAvverso(eventoAvverso);
-			ea = true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return ea;		
+		db.insertEventoAvverso(eventoAvverso);
+		ea = true;
+		return ea;
 	}
 
-	public EventoAvverso eventoAvversoServ(String sintomo, String id) throws RemoteException; {
+	public EventoAvverso eventoAvversoServ(String sintomo, String id) throws RemoteException {
 		EventoAvverso eaScelto = null;
-		try {
-			eaScelto = DatabaseProxy.selectEventoAvverso(id);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return eaScelto;		
+		eaScelto = db.selectEventoAvverso(sintomo,id);
+		return eaScelto;
 	}
 
-	public Boolean newAggregazioneEventi() throws RemoteException; {
+	public Boolean newAggregazioneEventi() throws RemoteException {
 		Boolean ae = false;
-		try {
-			DatabaseProxy.insertAggregazioneEventi();
-			ae = true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return ae;		
+		db.insertAggregazioneEventi();
+		ae = true;
+		return ae;
 	}
 	
-	public ArrayList<EventoAvverso> eventiAvversi(String id) throws RemoteException; {
+	public ArrayList<EventoAvverso> eventiAvversi(short id) throws RemoteException {
 		ArrayList<EventoAvverso> eventiAvversi = null;
-		try {
-			eventiAvversi = DatabaseProxy.listEventiAvversi(id);			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		eventiAvversi = db.listEventiAvversi(id);
 		return eventiAvversi;
 	}
 
-	public AggregazioneEventi aggregazioneEventi(String sintomo, String nome, String comune) throws RemoteException; {
-		AggregazioneEventi aeScelto = null;
-		try {
-			aeScelto = DatabaseProxy.selectAggregazioneEventi(sintomo, nome, comune);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return aeScelto;			
+	public ArrayList<AggregazioneEventi> aggregazioniEventi(String nome, String comune) throws RemoteException {
+		ArrayList<AggregazioneEventi> aeScelto = null;
+		aeScelto = db.listAggregazioniEventi(nome, comune);
+		return aeScelto;
 	}
 
-	public Boolean updateAggregazioneEventiServ() throws RemoteException; {
+	public Boolean updateAggregazioneEventiServ() throws RemoteException {
 		Boolean upAe = false;
-		try {
-			DatabaseProxy.updateAggregazioniEventi();
-			upAe = true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return upAe;			
+		db.updateAggregazioniEventi();
+		upAe = true;
+		return upAe;
 	}
 
-	public Boolean updateCentriVaccinaliServ() throws RemoteException; {
+	public Boolean updateCentriVaccinaliServ() throws RemoteException {
 		Boolean upCv = false;
-		try {
-			DatabaseProxy.updateCentriVaccinali();
-			upCv = true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return upCv;			
+		db.updateCentriVaccinali();
+		upCv = true;
+		return upCv;
 	}
-	
-	
-	
+
 	public static void main (String[] args) throws RemoteException {
 		try {
 			MultiServerImpl server = new MultiServerImpl();
+			server.db=new DatabaseProxy(args[0],args[1],args[2]);
 			Registry registro = LocateRegistry.createRegistry(1099);
 			registro.rebind("Server", server);
 			System.out.println("Server ready");
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
