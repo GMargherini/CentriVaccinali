@@ -354,7 +354,6 @@ public class DatabaseProxy {
 						rs.getDouble("media_severita")
 						);
 				result.add(aggregazioneEventi);
-				System.out.println(aggregazioneEventi);
 			}
 			rs.close();
 			return result;
