@@ -12,10 +12,9 @@ delete from aggregazioni_eventi;
 
 --update dati aggregati centri
 update centri_vaccinali cv
-	set totale_segnalazioni=(select distinct sum(numero_segnalazioni)
-		from aggregazioni_eventi
-		where nome=cv.nome and comune=cv.comune),
-	media_generale=(select distinct sum(media_severita * numero_segnalazioni)/sum(numero_segnalazioni)
-		from aggregazioni_eventi
-		where nome=cv.nome and comune=cv.comune
-		group by sintomo)
+set totale_segnalazioni=(select distinct sum(numero_segnalazioni)
+	from aggregazioni_eventi
+	where nome=cv.nome and comune=cv.comune),
+media_generale=(select distinct sum(media_severita * numero_segnalazioni)/sum(numero_segnalazioni)
+	from aggregazioni_eventi
+	where nome=cv.nome and comune=cv.comune)
