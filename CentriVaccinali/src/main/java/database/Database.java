@@ -18,7 +18,6 @@ public class Database {
 	 * @param password La password del database.
 	 * @param host L'host al quale collegarsi.
 	 * @return Un'istanza del databse.
-	 * @throws SQLException
 	 */
 	public static Database getInstance(String user, String password, String host) throws SQLException {
 		if (database == null) {

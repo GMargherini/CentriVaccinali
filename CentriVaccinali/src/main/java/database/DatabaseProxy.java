@@ -43,9 +43,10 @@ public class DatabaseProxy {
 	 * @return Un'<code>ArrayList</code> di <code>CentroVaccinale</code>
 	 */
 	public ArrayList<CentroVaccinale> listCentriVaccinali(String nome){
-		String query="SELECT nome, comune\n"
-					+ "FROM centri_vaccinali\n"
-					+ "WHERE LOWER(nome) LIKE LOWER(?)";
+		String query= """
+				SELECT nome, comune
+				FROM centri_vaccinali
+				WHERE LOWER(nome) LIKE LOWER(?)""";
 		try {
 			pstmnt=connection.prepareStatement(query);
 			nome="%"+nome+"%";
@@ -68,9 +69,10 @@ public class DatabaseProxy {
 	 * @return Un'<code>ArrayList</code> di <code>CentroVaccinale</code>
 	 */
 	public ArrayList<CentroVaccinale> listCentriVaccinali(String comune,String tipo){
-		String query="SELECT nome, comune\n"
-					+ "FROM centri_vaccinali\n"
-					+ "WHERE comune=? AND tipo=?";
+		String query= """
+				SELECT nome, comune
+				FROM centri_vaccinali
+				WHERE comune=? AND tipo=?""";
 		try {
 			pstmnt=connection.prepareStatement(query);
 			pstmnt.setString(1, comune);
@@ -94,9 +96,10 @@ public class DatabaseProxy {
 	 * @return Un oggetto di tipo <code>CentroVaccinale</code> se il centro esiste nel database, <code>null</code> altrimenti.
 	 */
 	public CentroVaccinale selectCentroVaccinale(String nome,String comune) {
-		String query="SELECT *\n"
-					+ "FROM centri_vaccinali\n"
-					+ "WHERE nome=? AND comune=?";
+		String query= """
+				SELECT *
+				FROM centri_vaccinali
+				WHERE nome=? AND comune=?""";
 		try {
 			pstmnt=connection.prepareStatement(query);
 			pstmnt.setString(1, nome);
@@ -149,9 +152,10 @@ public class DatabaseProxy {
 	 * @return Un oggetto di tipo<code>Vaccinato</code> se il vaccinato esiste nel database, <code>null</code> altrimenti.
 	 */
 	public Vaccinato selectVaccinato(short id) {
-		String query = "SELECT *\n"
-					+"FROM vaccinati\n"
-					+"WHERE id_vaccinazione=?";
+		String query = """
+				SELECT *
+				FROM vaccinati
+				WHERE id_vaccinazione=?""";
 		try {
 			pstmnt=connection.prepareStatement(query);
 			pstmnt.setShort(1, id);
@@ -202,9 +206,10 @@ public class DatabaseProxy {
 	 * @return Un oggetto di tipo<code>CittadinoRegistrato</code> se il cittadino esiste nel database, <code>null</code> altrimenti.
 	 */
 	public CittadinoRegistrato selectCittadinoRegistrato(String id) {
-		String query = "SELECT *\n"
-					+"FROM cittadini_registrati\n"
-					+"WHERE user_id=?";
+		String query = """
+				SELECT *
+				FROM cittadini_registrati
+				WHERE user_id=?""";
 		try {
 			pstmnt=connection.prepareStatement(query);
 			pstmnt.setString(1, id);
@@ -255,9 +260,10 @@ public class DatabaseProxy {
 	 * @return Un oggetto di tipo<code>EventoAvverso</code> se l'evento esiste nel database, <code>null</code> altrimenti.
 	 */
 	public EventoAvverso selectEventoAvverso(String sintomo,String id) {
-		String query = "SELECT *\n"
-				+"FROM eventi_avversi\n"
-				+"WHERE user_id=? AND sintomo=?";
+		String query = """
+				SELECT *
+				FROM eventi_avversi
+				WHERE user_id=? AND sintomo=?""";
 		try {
 			pstmnt=connection.prepareStatement(query);
 			pstmnt.setString(1, id);
@@ -287,9 +293,10 @@ public class DatabaseProxy {
 	 * @return Un'<code>ArrayList</code> di <code>EventoAvverso</code>
 	 */
 	public ArrayList<EventoAvverso> listEventiAvversi(short id){
-		String query = "SELECT *\n"
-				+"FROM eventi_avversi\n"
-				+"WHERE id_vaccinazione=?";
+		String query = """
+				SELECT *
+				FROM eventi_avversi
+				WHERE id_vaccinazione=?""";
 		try {
 			pstmnt=connection.prepareStatement(query);
 			pstmnt.setShort(1, id);
@@ -317,9 +324,10 @@ public class DatabaseProxy {
 	 * @return <code>true</code> se l'operazione va a buon fine,  <code>false</code> altrimenti.
 	 */
 	public Boolean insertAggregazioneEventi() {
-		String query = "INSERT INTO aggregazioni_eventi(sintomo, nome, comune)\n"
-					+ "select distinct sintomo, nome, comune\n"
-					+ "from eventi_avversi";
+		String query = """
+				INSERT INTO aggregazioni_eventi(sintomo, nome, comune)
+				select distinct sintomo, nome, comune
+				from eventi_avversi""";
 		try {
 			pstmnt=connection.prepareStatement(query);
 			pstmnt.executeUpdate();
@@ -336,9 +344,11 @@ public class DatabaseProxy {
 	 * @return Un oggetto di tipo<code>AggregazioneEventi</code> se gli eventi relativi al centro specificato esistono nel database, <code>null</code> altrimenti.
 	 */
 	public ArrayList<AggregazioneEventi> listAggregazioniEventi(String nome,String comune) {
-		String query = "SELECT *\n"
-				+"FROM aggregazioni_eventi\n"
-				+"WHERE nome=? AND comune=?";
+		String query = """
+				SELECT *
+				FROM aggregazioni_eventi
+				WHERE nome=? AND comune=?
+				ORDER BY numero_segnalazioni DESC, media_severita desc""";
 		try {
 			pstmnt=connection.prepareStatement(query);
 			pstmnt.setString(1, nome);
@@ -367,9 +377,9 @@ public class DatabaseProxy {
 	 */
 	public Boolean updateAggregazioniEventi() {
 		String query =
-				"""		
-      					delete from aggregazioni_eventi;
-						insert into aggregazioni_eventi(sintomo,nome,comune) 
+				"""
+						delete from aggregazioni_eventi;
+						insert into aggregazioni_eventi(sintomo,nome,comune)
 						select distinct sintomo,nome,comune from eventi_avversi;
 						UPDATE aggregazioni_eventi ae
 						SET numero_segnalazioni=(SELECT COUNT(*)
