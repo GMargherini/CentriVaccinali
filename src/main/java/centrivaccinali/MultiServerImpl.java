@@ -72,6 +72,7 @@ public class MultiServerImpl extends UnicastRemoteObject implements MultiServer{
 
 	public static void main (String[] args) throws RemoteException {
 		try {
+			//System.setProperty("java.rmi.server.hostname","192.168.1.210");
 			MultiServerImpl server = new MultiServerImpl();
 			server.db=new DatabaseProxy(args[0],args[1],args[2]);
 			Registry registro = LocateRegistry.createRegistry(1099);

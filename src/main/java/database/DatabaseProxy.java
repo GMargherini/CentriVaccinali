@@ -119,7 +119,6 @@ public class DatabaseProxy {
 			rs.close();
 			return null;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -195,7 +194,6 @@ public class DatabaseProxy {
 			pstmnt.executeUpdate();
 			return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
 			return false;
 		}
 	}
