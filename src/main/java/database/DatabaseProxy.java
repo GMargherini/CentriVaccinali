@@ -132,7 +132,7 @@ public class DatabaseProxy {
 				+ "VALUES (?,?,?,?,?,?,?);";
 		try {
 			pstmnt = connection.prepareStatement(query);
-			pstmnt.setShort(1, vaccinato.getIdVaccinazione());
+			pstmnt.setInt(1, vaccinato.getIdVaccinazione());
 			pstmnt.setString(2, vaccinato.getCodiceFiscale());
 			pstmnt.setString(3, vaccinato.getNomeCognome());
 			pstmnt.setString(4, vaccinato.getNomeCentro());
@@ -187,7 +187,7 @@ public class DatabaseProxy {
 					+ "VALUES (?,?,?,?);";
 		try {
 			pstmnt=connection.prepareStatement(query);
-			pstmnt.setShort(1, cr.getIdVaccinazione());
+			pstmnt.setInt(1, cr.getIdVaccinazione());
 			pstmnt.setString(2, cr.getUserId());
 			pstmnt.setString(3, cr.getPassword());
 			pstmnt.setString(4, cr.getEmail());
@@ -238,7 +238,7 @@ public class DatabaseProxy {
 		try {
 			pstmnt=connection.prepareStatement(query);
 			pstmnt.setString(1, ea.getSintomo());
-			pstmnt.setShort(2, ea.getIdVaccinazione());
+			pstmnt.setInt(2, ea.getIdVaccinazione());
 			pstmnt.setInt(3, ea.getSeverita());
 			pstmnt.setString(4, ea.getNote());
 			pstmnt.setString(5, ea.getNomeCentro());
