@@ -150,14 +150,14 @@ public class DatabaseProxy {
 	 * @param id L'id della vaccinazione.
 	 * @return Un oggetto di tipo<code>Vaccinato</code> se il vaccinato esiste nel database, <code>null</code> altrimenti.
 	 */
-	public Vaccinato selectVaccinato(short id) {
+	public Vaccinato selectVaccinato(int id) {
 		String query = """
 				SELECT *
 				FROM vaccinati
 				WHERE id_vaccinazione=?""";
 		try {
 			pstmnt=connection.prepareStatement(query);
-			pstmnt.setShort(1, id);
+			pstmnt.setInt(1, id);
 			ResultSet rs=pstmnt.executeQuery();
 			if(rs.next()) {
 				Vaccinato vaccinato = new Vaccinato(
@@ -289,14 +289,14 @@ public class DatabaseProxy {
 	 * @param id L'user id del cittadino
 	 * @return Un'<code>ArrayList</code> di <code>EventoAvverso</code>
 	 */
-	public ArrayList<EventoAvverso> listEventiAvversi(short id){
+	public ArrayList<EventoAvverso> listEventiAvversi(int id){
 		String query = """
 				SELECT *
 				FROM eventi_avversi
 				WHERE id_vaccinazione=?""";
 		try {
 			pstmnt=connection.prepareStatement(query);
-			pstmnt.setShort(1, id);
+			pstmnt.setInt(1, id);
 			ResultSet rs=pstmnt.executeQuery();
 			ArrayList<EventoAvverso> result=new ArrayList<>();
 			while(rs.next()) {

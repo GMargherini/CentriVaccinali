@@ -14,7 +14,7 @@ public interface MultiServer extends Remote {
 
 	CentroVaccinale centroVaccinaleServ(String nome, String comune) throws RemoteException;
 
-	Vaccinato vaccinatoServ(short id) throws RemoteException;
+	Vaccinato vaccinatoServ(int id) throws RemoteException;
 
 	Boolean newCittadinoRegistrato(CittadinoRegistrato cittadinoRegistrato) throws RemoteException;
 
@@ -26,7 +26,7 @@ public interface MultiServer extends Remote {
 
 	Boolean newAggregazioneEventi() throws RemoteException;
 	
-	ArrayList<EventoAvverso> eventiAvversi(short id) throws RemoteException;
+	ArrayList<EventoAvverso> eventiAvversi(int id) throws RemoteException;
 
 	ArrayList<AggregazioneEventi> aggregazioniEventi (String nome, String comune) throws RemoteException;
 

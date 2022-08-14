@@ -30,7 +30,7 @@ public class MultiServerImpl extends UnicastRemoteObject implements MultiServer{
 		return db.selectCentroVaccinale(nome, comune);
 	}	
 
-	public Vaccinato vaccinatoServ(short id) throws RemoteException {
+	public Vaccinato vaccinatoServ(int id) throws RemoteException {
 		return db.selectVaccinato(id);
 	}
 
@@ -54,7 +54,7 @@ public class MultiServerImpl extends UnicastRemoteObject implements MultiServer{
 		return db.insertAggregazioneEventi();
 	}
 	
-	public ArrayList<EventoAvverso> eventiAvversi(short id) throws RemoteException {
+	public ArrayList<EventoAvverso> eventiAvversi(int id) throws RemoteException {
 		return db.listEventiAvversi(id);
 	}
 
