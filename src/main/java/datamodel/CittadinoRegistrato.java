@@ -3,19 +3,29 @@ package datamodel;
 import java.io.Serializable;
 
 public class CittadinoRegistrato implements Serializable {
-	private short idVaccinazione;
+	private int idVaccinazione;
 	private String userId;
 	private String password;
 	private String email;
-	
-	public CittadinoRegistrato(short id, String user,String pwd, String email) {
+
+	/**
+	 * Crea un oggetto di tipo <code>CittadinoRegistrato</code>.
+	 * @param id L'id univoco della vaccinazione compreso tra 0 e 65536.
+	 * @param user L'username dell'utente.
+	 * @param pwd La password dell'utente.
+	 * @param email L'indirizzo e-mail dell'utente.
+	 */
+	public CittadinoRegistrato(int id, String user,String pwd, String email) throws IllegalArgumentException{
 		idVaccinazione=id;
 		userId=user;
 		password=pwd;
 		this.email=email;
+		if(idVaccinazione<0||idVaccinazione>65536)
+			throw new IllegalArgumentException();
+
 	}
-	
-	public short getIdVaccinazione() {
+
+	public int getIdVaccinazione() {
 		return idVaccinazione;
 	}
 	public String getUserId() {
@@ -27,7 +37,10 @@ public class CittadinoRegistrato implements Serializable {
 	public String getEmail() {
 		return email;
 	}
-
+	/**
+	 * Crea un array contenente le informazioni dell'oggetto.
+	 * @return Un array di <code>String</code>.
+	 */
 	public String[] toArray(){
 		String[] res=new String[4];
 		res[0]=String.valueOf(idVaccinazione);

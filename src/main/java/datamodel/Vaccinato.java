@@ -2,15 +2,25 @@ package datamodel;
 import java.io.Serializable;
 import java.util.Date;
 public class Vaccinato implements Serializable {
-	private short idVaccinazione;
+	private int idVaccinazione;
 	private String codiceFiscale;
 	private String nomeCognome;
 	private String nomeCentro;
 	private String comuneCentro;
 	private Date dataVaccinazione;
 	private String tipoVaccino;
-	
-	public Vaccinato(short id,String cf, String nomeCognome,String nomeCentro,String comune, Date data, String tipo) {
+
+	/**
+	 * Crea un oggetto di tipo <code>Vaccinato</code>.
+	 * @param id L'id univoco della vaccinazione compreso tra 0 e 65536.
+	 * @param cf Il codice fiscale del vaccinato.
+	 * @param nomeCognome Nome e cognome del Vaccinato.
+	 * @param nomeCentro Il nome del centro vaccinale.
+	 * @param comune Il comune del centro vaccinale.
+	 * @param data La data della vaccinazione.
+	 * @param tipo Il tipo del vaccino.
+	 */
+	public Vaccinato(int id, String cf, String nomeCognome, String nomeCentro, String comune, Date data, String tipo) {
 		idVaccinazione=id;
 		codiceFiscale=cf;
 		this.nomeCognome=nomeCognome;
@@ -18,10 +28,10 @@ public class Vaccinato implements Serializable {
 		comuneCentro=comune;
 		dataVaccinazione=data;
 		tipoVaccino=tipo;
+		if(idVaccinazione<0||idVaccinazione>65536)
+			throw new IllegalArgumentException();
 	}
-	public Vaccinato() {
-	}
-	public short getIdVaccinazione() {
+	public int getIdVaccinazione() {
 		return idVaccinazione;
 	}
 	public String getCodiceFiscale() {
@@ -42,7 +52,10 @@ public class Vaccinato implements Serializable {
 	public String getTipoVaccino() {
 		return tipoVaccino;
 	}
-
+	/**
+	 * Crea un array contenente le informazioni dell'oggetto.
+	 * @return Un array di <code>String</code>.
+	 */
 	public String[] toArray(){
 		String[] res=new String[7];
 		res[0]=String.valueOf(idVaccinazione);
