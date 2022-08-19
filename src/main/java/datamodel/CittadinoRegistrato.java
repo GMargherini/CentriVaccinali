@@ -3,10 +3,10 @@ package datamodel;
 import java.io.Serializable;
 
 public class CittadinoRegistrato implements Serializable {
-	private int idVaccinazione;
-	private String userId;
-	private String password;
-	private String email;
+	private final int idVaccinazione;
+	private final String userId;
+	private final String password;
+	private final String email;
 
 	/**
 	 * Crea un oggetto di tipo <code>CittadinoRegistrato</code>.

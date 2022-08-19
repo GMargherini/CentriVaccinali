@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 public class AggregazioneEventi implements Serializable {
 
-	private String sintomo;
-	private String nomeCentro;
-	private String comuneCentro;
+	private final String sintomo;
+	private final String nomeCentro;
+	private final String comuneCentro;
 	private int numeroSegnalazioni;
 	private double mediaSeverita;
 

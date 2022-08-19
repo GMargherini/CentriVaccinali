@@ -2,13 +2,13 @@ package datamodel;
 import java.io.Serializable;
 import java.util.Date;
 public class Vaccinato implements Serializable {
-	private int idVaccinazione;
-	private String codiceFiscale;
-	private String nomeCognome;
-	private String nomeCentro;
-	private String comuneCentro;
-	private Date dataVaccinazione;
-	private String tipoVaccino;
+	private final int idVaccinazione;
+	private final String codiceFiscale;
+	private final String nomeCognome;
+	private final String nomeCentro;
+	private final String comuneCentro;
+	private final Date dataVaccinazione;
+	private final String tipoVaccino;
 
 	/**
 	 * Crea un oggetto di tipo <code>Vaccinato</code>.

@@ -3,8 +3,8 @@ package datamodel;
 import java.io.Serializable;
 
 public class CentroVaccinale implements Serializable {
-	private String nome;
-	private String comune;
+	private final String nome;
+	private final String comune;
 	private String indirizzo;
 	private String tipo;
 	private int totaleSegnalazioni;
@@ -46,18 +46,9 @@ public class CentroVaccinale implements Serializable {
 	public String getIndirizzo() {
 		return indirizzo;
 	}
-	public String getTipo() {
-		return tipo;
-	}
-	protected void setTotaleSegnalazioni(int totale) {
-		totaleSegnalazioni=totale;
-	}
-
+	public String getTipo() {return tipo;}
 	public int getTotaleSegnalazioni() {
 		return totaleSegnalazioni;
-	}
-	protected void setMediaGenerale(double media) {
-		mediaGenerale=media;
 	}
 	public double getMediaGenerale() {
 		return mediaGenerale;

@@ -3,12 +3,12 @@ package datamodel;
 import java.io.Serializable;
 
 public class EventoAvverso implements Serializable {
-	private String sintomo;
-	private int idVaccinazione;
-	private int severita;
-	private String note;
-	private String nomeCentro;
-	private String comuneCentro;
+	private final String sintomo;
+	private final int idVaccinazione;
+	private final int severita;
+	private final String note;
+	private final String nomeCentro;
+	private final String comuneCentro;
 
 	/**
 	 * Crea un oggetto di tipo <code>EventoAvverso</code>.

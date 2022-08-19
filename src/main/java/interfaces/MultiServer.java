@@ -1,4 +1,4 @@
-package centrivaccinali;
+package interfaces;
 
 import datamodel.*;
 

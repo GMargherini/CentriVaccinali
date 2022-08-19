@@ -2,6 +2,7 @@ package centrivaccinali;
 
 import database.DatabaseProxy;
 import datamodel.*;
+import interfaces.MultiServer;
 
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
@@ -11,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-public class MultiServerImpl extends UnicastRemoteObject implements MultiServer{
+public class MultiServerImpl extends UnicastRemoteObject implements MultiServer {
 	DatabaseProxy db;
 
 	public MultiServerImpl() throws RemoteException, SQLException {

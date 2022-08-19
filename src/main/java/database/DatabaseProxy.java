@@ -49,8 +49,7 @@ public class DatabaseProxy {
 				WHERE LOWER(nome) LIKE LOWER(?)""";
 		try {
 			pstmnt=connection.prepareStatement(query);
-			nome="%"+nome+"%";
-			pstmnt.setString(1, nome);
+			pstmnt.setString(1, "%"+nome+"%");
 			ResultSet rs=pstmnt.executeQuery();
 			ArrayList<CentroVaccinale> centri=new ArrayList<CentroVaccinale>();
 			while(rs.next()) {
@@ -345,7 +344,7 @@ public class DatabaseProxy {
 				SELECT *
 				FROM aggregazioni_eventi
 				WHERE nome=? AND comune=?
-				ORDER BY numero_segnalazioni DESC, media_severita desc""";
+				ORDER BY numero_segnalazioni DESC, media_severita DESC""";
 		try {
 			pstmnt=connection.prepareStatement(query);
 			pstmnt.setString(1, nome);
@@ -400,13 +399,13 @@ public class DatabaseProxy {
 	 */
 	public Boolean updateCentriVaccinali() {
 		String query = """
-				update centri_vaccinali cv
-				set totale_segnalazioni=(select distinct sum(numero_segnalazioni)
-					from aggregazioni_eventi
-				    where nome=cv.nome and comune=cv.comune),
-				media_generale=(select distinct sum(media_severita * numero_segnalazioni)/sum(numero_segnalazioni)
-				    from aggregazioni_eventi
-				    where nome=cv.nome and comune=cv.comune)""";
+				UPDATE centri_vaccinali cv
+				SET totale_segnalazioni=(SELECT DISTINCT SUM(numero_segnalazioni)
+					FROM aggregazioni_eventi
+				    WHERE nome=cv.nome AND comune=cv.comune),
+				media_generale=(SELECT DISTINCT SUM(media_severita * numero_segnalazioni)/SUM(numero_segnalazioni)
+				    FROM aggregazioni_eventi
+				    WHERE nome=cv.nome AND comune=cv.comune)""";
 		try {
 			pstmnt=connection.prepareStatement(query);
 			pstmnt.executeUpdate();
