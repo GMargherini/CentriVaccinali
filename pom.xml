@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>it.uninsubria</groupId>
 	<artifactId>CentriVaccinali</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1</version>
 	<packaging>jar</packaging>
 	<properties>
 		<maven.compiler.source>17</maven.compiler.source>
@@ -15,7 +15,7 @@
 			<dependency>
 				<groupId>org.postgresql</groupId>
 				<artifactId>postgresql</artifactId>
-				<version>42.4.1</version>
+				<version>42.4.2</version>
 			</dependency>
 		<dependency>
     		<groupId>org.apache.maven.plugins</groupId>

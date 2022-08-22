@@ -10,6 +10,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 
 public class MultiServerImpl extends UnicastRemoteObject implements MultiServer {
@@ -75,7 +76,20 @@ public class MultiServerImpl extends UnicastRemoteObject implements MultiServer 
 		try {
 			//System.setProperty("java.rmi.server.hostname","192.168.1.210");
 			MultiServerImpl server = new MultiServerImpl();
-			server.db=new DatabaseProxy(args[0],args[1],args[2]);
+			Scanner in=new Scanner(System.in);
+			String host,password,user;
+			System.out.println("Inserire user database: ");
+			user=in.next();
+			System.out.println("Inserire password database: ");
+			password=in.next();
+			System.out.println("Inserire host database: ");
+			host=in.next();
+			try{
+				server.db=new DatabaseProxy(user,password,host);
+			}catch(SQLException e){
+				System.out.println("Accesso al database fallito");
+				return;
+			};
 			Registry registro = LocateRegistry.createRegistry(1099);
 			registro.rebind("Server", server);
 			System.out.println("Server ready");
