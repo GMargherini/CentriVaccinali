@@ -9,6 +9,7 @@ import database.DatabaseProxy;
 import datamodel.*;
 import interfaces.MultiServer;
 
+import java.io.Console;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.RemoteException;
@@ -88,18 +89,14 @@ public class CentriVaccinali extends UnicastRemoteObject implements MultiServer 
 			password=in.next();
 			System.out.println("Inserire host database: ");
 			host=in.next();
-			try{
-				server.db=new DatabaseProxy(user,password,host);
-			}catch(SQLException e){
-				System.out.println("Accesso al database fallito");
-				return;
-			}
+			server.db=new DatabaseProxy(user,password,host);
 			Registry registro = LocateRegistry.createRegistry(1099);
 			registro.rebind("Server", server);
 			System.out.println("Server ready");
-
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
+			System.out.println("Accesso al database fallito");
+			System.exit(1);
 		}
 	}
 }
