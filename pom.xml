@@ -33,7 +33,7 @@
           			<archive>
             			<manifest>
               				<addClasspath>true</addClasspath>
-              				<mainClass>centrivaccinali.MultiServerImpl</mainClass>
+              				<mainClass>centrivaccinali.CentriVaccinali</mainClass>
             			</manifest>
           			</archive>
         		</configuration>

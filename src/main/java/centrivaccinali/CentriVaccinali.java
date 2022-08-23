@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-public class MultiServerImpl extends UnicastRemoteObject implements MultiServer {
+public class CentriVaccinali extends UnicastRemoteObject implements MultiServer {
 	DatabaseProxy db;
 
-	public MultiServerImpl() throws RemoteException, SQLException {
+	public CentriVaccinali() throws RemoteException{
 		super();
 	}
 
@@ -74,8 +74,7 @@ public class MultiServerImpl extends UnicastRemoteObject implements MultiServer 
 
 	public static void main (String[] args) throws RemoteException {
 		try {
-			//System.setProperty("java.rmi.server.hostname","192.168.1.210");
-			MultiServerImpl server = new MultiServerImpl();
+			CentriVaccinali server = new CentriVaccinali();
 			Scanner in=new Scanner(System.in);
 			String host,password,user;
 			System.out.println("Inserire user database: ");
@@ -89,7 +88,7 @@ public class MultiServerImpl extends UnicastRemoteObject implements MultiServer 
 			}catch(SQLException e){
 				System.out.println("Accesso al database fallito");
 				return;
-			};
+			}
 			Registry registro = LocateRegistry.createRegistry(1099);
 			registro.rebind("Server", server);
 			System.out.println("Server ready");
