@@ -1,3 +1,8 @@
+/*
+ * Antonicelli Sandy, 744947, VA
+ * Caffi Nicolò, 745391, VA
+ * Margherini Giorgio, 744148, VA
+ */
 package datamodel;
 
 import java.io.Serializable;
