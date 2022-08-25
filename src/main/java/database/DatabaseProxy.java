@@ -77,7 +77,8 @@ public class DatabaseProxy {
 		String query= """
 				SELECT nome, comune
 				FROM centri_vaccinali
-				WHERE comune=? AND tipo=?""";
+				WHERE comune=? AND tipo=?
+				ORDER BY comune""";
 		try {
 			pstmnt=connection.prepareStatement(query);
 			pstmnt.setString(1, comune);
