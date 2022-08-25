@@ -7,6 +7,11 @@ insert into centri_vaccinali values('Sede vaccinale di Luino','Luino','Via Verdi
 insert into centri_vaccinali values('Sede vaccinale di Malnate','Malnate','Piazza Libertà 1 21046','ospedaliero',null,null);
 insert into centri_vaccinali values('Sede vaccinale di Sesto Calende','Sesto Calende','Largo C. Dell''Acqua 1 21018','ospedaliero',null,null);
 insert into centri_vaccinali values('Sede vaccinale di Tradate','Tradate','Via Gradisca 16 21049','ospedaliero',null,null);
+insert into centri_vaccinali values('Centro vaccinale di Busto Arsizio','Busto Arsizio','V.le Stelvio 3 21052','ospedaliero',NULL,NULL);
+insert into centri_vaccinali values('Centro vaccinale di Cassano Magnago','Cassano Magnago','Via Buttafava 15 21012','ospedaliero',NULL,NULL);
+insert into centri_vaccinali values('Centro vaccinale di Gallarate','Gallarate','C.so Leonardo da Vinci 1 21013','ospedaliero',NULL,NULL);
+insert into centri_vaccinali values('Centro vaccinale di Saronno','Saronno','Via Fiume 12 21047','ospedaliero',NULL,NULL);
+insert into centri_vaccinali values('Centro vaccinale di Somma Lombardo','Somma Lombardo','Via Cavour 2 21019','ospedaliero',NULL,NULL);
 --vaccinati
 insert into vaccinati values (0,'AAAAAA00A00A000A','Mario Rossi','Sede vaccinale di Varese','Varese',CURRENT_DATE,'AstraZeneca');
 insert into vaccinati values (1,'AAAAAA00A00A000B','Luigi Ferrari','Sede vaccinale di Varese','Varese',CURRENT_DATE,'Pfizer');
