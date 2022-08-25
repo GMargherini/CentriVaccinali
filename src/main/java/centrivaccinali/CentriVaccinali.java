@@ -7,9 +7,8 @@ package centrivaccinali;
 
 import database.DatabaseProxy;
 import datamodel.*;
-import interfaces.MultiServer;
+import interfaces.CentriVaccinaliInt;
 
-import java.io.Console;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.RemoteException;
@@ -19,34 +18,34 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-public class CentriVaccinali extends UnicastRemoteObject implements MultiServer {
+public class CentriVaccinali extends UnicastRemoteObject implements CentriVaccinaliInt {
 	DatabaseProxy db;
 
 	public CentriVaccinali() throws RemoteException{
 		super();
 	}
 
-	public ArrayList<CentroVaccinale> nomeCentriServ(String nome) throws RemoteException {
+	public ArrayList<CentroVaccinale> cercaCentroVaccinale(String nome) throws RemoteException {
 		return db.listCentriVaccinali(nome);
 	}
 
-	public ArrayList<CentroVaccinale> comuneTipoCentriServ(String comune, String tipo) throws RemoteException {
+	public ArrayList<CentroVaccinale> cercaCentroVaccinale(String comune, String tipo) throws RemoteException {
 		return db.listCentriVaccinali(comune, tipo);
 	}
 
-	public CentroVaccinale centroVaccinaleServ(String nome, String comune) throws RemoteException {
+	public CentroVaccinale visualizzaInfoCentroVaccinale(String nome, String comune) throws RemoteException {
 		return db.selectCentroVaccinale(nome, comune);
 	}	
 
-	public Vaccinato vaccinatoServ(int id) throws RemoteException {
+	public Vaccinato visualizzaInfoVaccinato(int id) throws RemoteException {
 		return db.selectVaccinato(id);
 	}
 
-	public Boolean newCittadinoRegistrato(CittadinoRegistrato cittadinoRegistrato) throws RemoteException {
+	public Boolean registraCittadino(CittadinoRegistrato cittadinoRegistrato) throws RemoteException {
 		return db.insertCittadinoRegistrato(cittadinoRegistrato);
 	}
 
-	public CittadinoRegistrato cittadinoRegistratoServ(String id) throws RemoteException {
+	public CittadinoRegistrato visualizzaInfoCittadinoRegistrato(String id) throws RemoteException {
 		return db.selectCittadinoRegistrato(id);
 	}
 
@@ -83,18 +82,17 @@ public class CentriVaccinali extends UnicastRemoteObject implements MultiServer 
 			CentriVaccinali server = new CentriVaccinali();
 			Scanner in=new Scanner(System.in);
 			String host,password,user;
+			System.out.println("Inserire host database: ");
+			host=in.next();
 			System.out.println("Inserire user database: ");
 			user=in.next();
 			System.out.println("Inserire password database: ");
 			password=in.next();
-			System.out.println("Inserire host database: ");
-			host=in.next();
 			server.db=new DatabaseProxy(user,password,host);
 			Registry registro = LocateRegistry.createRegistry(1099);
 			registro.rebind("Server", server);
 			System.out.println("Server ready");
 		} catch (SQLException e) {
-			e.printStackTrace();
 			System.out.println("Accesso al database fallito");
 			System.exit(1);
 		}

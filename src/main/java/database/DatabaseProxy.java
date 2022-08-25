@@ -51,7 +51,8 @@ public class DatabaseProxy {
 		String query= """
 				SELECT nome, comune
 				FROM centri_vaccinali
-				WHERE LOWER(nome) LIKE LOWER(?)""";
+				WHERE LOWER(nome) LIKE LOWER(?)
+				ORDER BY comune""";
 		try {
 			pstmnt=connection.prepareStatement(query);
 			pstmnt.setString(1, "%"+nome+"%");

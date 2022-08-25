@@ -11,14 +11,14 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public interface MultiServer extends Remote {
+public interface CentriVaccinaliInt extends Remote {
 	/**
 	 * Restituisce una lista dei centri vaccinali con nome contenete <code>nome</code>.
 	 * @param nome La stringa cercare.
 	 * @return Una <code>ArrayList</code> di <code>CentroVaccinale</code>.
 	 * @throws RemoteException
 	 */
-	ArrayList<CentroVaccinale> nomeCentriServ(String nome) throws RemoteException;
+	ArrayList<CentroVaccinale> cercaCentroVaccinale(String nome) throws RemoteException;
 
 	/**
 	 * Restituisce una lista dei centri vaccinali con comune uguale a <code>comune</code> e tipo uguale a <code>tipo</code>.
@@ -27,7 +27,7 @@ public interface MultiServer extends Remote {
 	 * @return Una <code>ArrayList</code> di <code>CentroVaccinale</code>.
 	 * @throws RemoteException
 	 */
-	ArrayList<CentroVaccinale> comuneTipoCentriServ(String comune, String tipo) throws RemoteException;
+	ArrayList<CentroVaccinale> cercaCentroVaccinale(String comune, String tipo) throws RemoteException;
 
 	/**
 	 * Restituisce il centro vaccinale con nome uguale a <code>nome</code> e comune uguale a <code>comune</code>.
@@ -36,7 +36,7 @@ public interface MultiServer extends Remote {
 	 * @return Un oggetto di tipo <code>CentroVaccinale</code>.
 	 * @throws RemoteException
 	 */
-	CentroVaccinale centroVaccinaleServ(String nome, String comune) throws RemoteException;
+	CentroVaccinale visualizzaInfoCentroVaccinale(String nome, String comune) throws RemoteException;
 
 	/**
 	 * Restituisce il vaccinato con codice identificativo uguale a <code>id</code>.
@@ -44,7 +44,7 @@ public interface MultiServer extends Remote {
 	 * @return Un oggetto di tipo <code>>Vaccinato</code>.
 	 * @throws RemoteException
 	 */
-	Vaccinato vaccinatoServ(int id) throws RemoteException;
+	Vaccinato visualizzaInfoVaccinato(int id) throws RemoteException;
 
 	/**
 	 * Inserisce un nuovo cittadino registrato nel database.
@@ -52,7 +52,7 @@ public interface MultiServer extends Remote {
 	 * @return <code>true</code> se l'operazione va a buon fine, <code>false</code> altrimenti.
 	 * @throws RemoteException
 	 */
-	Boolean newCittadinoRegistrato(CittadinoRegistrato cittadinoRegistrato) throws RemoteException;
+	Boolean registraCittadino(CittadinoRegistrato cittadinoRegistrato) throws RemoteException;
 
 	/**
 	 * Restituisce il cittadino registrato con username uguale a <code>id</code>.
@@ -60,7 +60,7 @@ public interface MultiServer extends Remote {
 	 * @return Un oggetto di tipo <code>CittadinoRegistrato</code>.
 	 * @throws RemoteException
 	 */
-	CittadinoRegistrato cittadinoRegistratoServ(String id) throws RemoteException;
+	CittadinoRegistrato visualizzaInfoCittadinoRegistrato(String id) throws RemoteException;
 
 	/**
 	 * Inserisce un nuovo evento avverso nel database.
