@@ -9,7 +9,7 @@ CREATE TABLE centri_vaccinali(
 );
 
 CREATE TABLE vaccinati(
-    ID_vaccinazione INTEGER PRIMARY KEY CHECK (ID_vaccinazione>=0 AND ID_vaccinazione<56535),
+    ID_vaccinazione INTEGER PRIMARY KEY CHECK (ID_vaccinazione>=0 AND ID_vaccinazione<65535),
     codice_fiscale CHAR(16) UNIQUE NOT NULL CHECK(codice_fiscale ~ '[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]'),
     nome_cognome VARCHAR(40),
     nome VARCHAR(50) NOT NULL,
