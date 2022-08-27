@@ -1,4 +1,4 @@
-CREATE TABLE centri_vaccinali(
+CREATE TABLE CentriVaccinali(
     nome VARCHAR(50) NOT NULL,
     comune VARCHAR(35) NOT NULL,
     indirizzo VARCHAR(50) NOT NULL,
@@ -8,19 +8,19 @@ CREATE TABLE centri_vaccinali(
     PRIMARY KEY(nome,comune)
 );
 
-CREATE TABLE vaccinati(
-    ID_vaccinazione INTEGER PRIMARY KEY CHECK (ID_vaccinazione>=0 AND ID_vaccinazione<65535),
+CREATE TABLE Vaccinati(
+    ID_vaccinazione INTEGER PRIMARY KEY CHECK (ID_vaccinazione>=0 AND ID_vaccinazione<=65535),
     codice_fiscale CHAR(16) UNIQUE NOT NULL CHECK(codice_fiscale ~ '[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]'),
     nome_cognome VARCHAR(40),
     nome VARCHAR(50) NOT NULL,
     comune VARCHAR(35) NOT NULL,
     data_vaccinazione DATE DEFAULT CURRENT_DATE,
     tipo_vaccino VARCHAR(20),
-    FOREIGN KEY(nome,comune) REFERENCES centri_vaccinali
+    FOREIGN KEY(nome,comune) REFERENCES CentriVaccinali
 );
 
-CREATE TABLE cittadini_registrati(
-    ID_vaccinazione INTEGER PRIMARY KEY REFERENCES vaccinati,
+CREATE TABLE Cittadini_Registrati(
+    ID_vaccinazione INTEGER PRIMARY KEY REFERENCES Vaccinati,
     user_ID VARCHAR(30) NOT NULL UNIQUE,
     password VARCHAR(30) NOT NULL,
     email VARCHAR(50) NOT NULL CHECK(email ~* '^[-\w.]+@[A-Z_.]+?[A-Z]{2,4}$')
@@ -28,13 +28,13 @@ CREATE TABLE cittadini_registrati(
 
 CREATE TABLE eventi_avversi(
     sintomo VARCHAR(30) NOT NULL,
-    id_vaccinazione INTEGER NOT NULL REFERENCES cittadini_registrati,
+    id_vaccinazione INTEGER NOT NULL REFERENCES Cittadini_Registrati,
     severita INTEGER CHECK(severita>=1 AND severita <=5),
     note VARCHAR(256),
     nome VARCHAR(50) NOT NULL,
     comune VARCHAR(35) NOT NULL,
     PRIMARY KEY(sintomo,id_vaccinazione),
-    FOREIGN KEY(nome,comune) REFERENCES centri_vaccinali
+    FOREIGN KEY(nome,comune) REFERENCES CentriVaccinali
 );
 
 CREATE TABLE aggregazioni_eventi(
@@ -44,5 +44,5 @@ CREATE TABLE aggregazioni_eventi(
     numero_segnalazioni INTEGER,
     media_severita NUMERIC,
     PRIMARY KEY(sintomo,nome,comune),
-    FOREIGN KEY(nome,comune) REFERENCES centri_vaccinali
+    FOREIGN KEY(nome,comune) REFERENCES CentriVaccinali
 );
