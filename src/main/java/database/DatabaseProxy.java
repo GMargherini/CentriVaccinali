@@ -27,7 +27,7 @@ public class DatabaseProxy {
 	 * @return <code>true</code> se l'operazione va a buon fine,  <code>false</code> altrimenti.
 	 */
 	public Boolean insertCentroVaccinale(CentroVaccinale centro) {
-		String query="INSERT INTO centri_vaccinali (nome, comune, indirizzo, tipo)\n"
+		String query="INSERT INTO CentriVaccinali (nome, comune, indirizzo, tipo)\n"
 					+ "VALUES (?,?,?,?);";
 		try {
 			pstmnt = connection.prepareStatement(query);
@@ -50,7 +50,7 @@ public class DatabaseProxy {
 	public ArrayList<CentroVaccinale> listCentriVaccinali(String nome){
 		String query= """
 				SELECT nome, comune
-				FROM centri_vaccinali
+				FROM CentriVaccinali
 				WHERE LOWER(nome) LIKE LOWER(?)
 				ORDER BY comune""";
 		try {
@@ -76,7 +76,7 @@ public class DatabaseProxy {
 	public ArrayList<CentroVaccinale> listCentriVaccinali(String comune,String tipo){
 		String query= """
 				SELECT nome, comune
-				FROM centri_vaccinali
+				FROM CentriVaccinali
 				WHERE comune=? AND tipo=?
 				ORDER BY comune""";
 		try {
@@ -104,7 +104,7 @@ public class DatabaseProxy {
 	public CentroVaccinale selectCentroVaccinale(String nome,String comune) {
 		String query= """
 				SELECT *
-				FROM centri_vaccinali
+				FROM CentriVaccinali
 				WHERE nome=? AND comune=?""";
 		try {
 			pstmnt=connection.prepareStatement(query);
@@ -134,7 +134,7 @@ public class DatabaseProxy {
 	 * @return <code>true</code> se l'operazione va a buon fine,  <code>false</code> altrimenti.
 	 */
 	public Boolean insertVaccinato(Vaccinato vaccinato) {
-		String query="INSERT INTO vaccinati\n"
+		String query="INSERT INTO Vaccinati\n"
 				+ "VALUES (?,?,?,?,?,?,?);";
 		try {
 			pstmnt = connection.prepareStatement(query);
@@ -159,7 +159,7 @@ public class DatabaseProxy {
 	public Vaccinato selectVaccinato(int id) {
 		String query = """
 				SELECT *
-				FROM vaccinati
+				FROM Vaccinati
 				WHERE id_vaccinazione=?""";
 		try {
 			pstmnt=connection.prepareStatement(query);
@@ -189,7 +189,7 @@ public class DatabaseProxy {
 	 * @return <code>true</code> se l'operazione va a buon fine,  <code>false</code> altrimenti.
 	 */
 	public Boolean insertCittadinoRegistrato(CittadinoRegistrato cr) {
-		String query = "INSERT INTO cittadini_registrati\n"
+		String query = "INSERT INTO Cittadini_Registrati\n"
 					+ "VALUES (?,?,?,?);";
 		try {
 			pstmnt=connection.prepareStatement(query);
@@ -212,7 +212,7 @@ public class DatabaseProxy {
 	public CittadinoRegistrato selectCittadinoRegistrato(String id) {
 		String query = """
 				SELECT *
-				FROM cittadini_registrati
+				FROM Cittadini_Registrati
 				WHERE user_id=?""";
 		try {
 			pstmnt=connection.prepareStatement(query);
@@ -386,10 +386,10 @@ public class DatabaseProxy {
 						select distinct sintomo,nome,comune from eventi_avversi;
 						UPDATE aggregazioni_eventi ae
 						SET numero_segnalazioni=(SELECT COUNT(*)
-								FROM centri_vaccinali cv, eventi_avversi ea
+								FROM CentriVaccinali cv, eventi_avversi ea
 								WHERE ea.nome=cv.nome AND ea.comune=cv.comune AND ae.sintomo=ea.sintomo),
 							media_severita=(SELECT AVG(severita)
-								FROM eventi_avversi ea, centri_vaccinali cv
+								FROM eventi_avversi ea, CentriVaccinali cv
 								WHERE ea.nome=cv.nome AND ea.comune=cv.comune AND ae.sintomo=ea.sintomo)""";
 		try {
 			pstmnt=connection.prepareStatement(query);
@@ -406,7 +406,7 @@ public class DatabaseProxy {
 	 */
 	public Boolean updateCentriVaccinali() {
 		String query = """
-				UPDATE centri_vaccinali cv
+				UPDATE CentriVaccinali cv
 				SET totale_segnalazioni=(SELECT DISTINCT SUM(numero_segnalazioni)
 					FROM aggregazioni_eventi
 				    WHERE nome=cv.nome AND comune=cv.comune),
