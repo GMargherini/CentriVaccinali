@@ -17,7 +17,7 @@ public class Vaccinato implements Serializable {
 
 	/**
 	 * Crea un oggetto di tipo <code>Vaccinato</code>.
-	 * @param id L'id univoco della vaccinazione compreso tra 0 e 65536.
+	 * @param id L'id univoco della vaccinazione compreso tra 0 e 65535.
 	 * @param cf Il codice fiscale del vaccinato.
 	 * @param nomeCognome Nome e cognome del Vaccinato.
 	 * @param nomeCentro Il nome del centro vaccinale.
@@ -33,7 +33,7 @@ public class Vaccinato implements Serializable {
 		comuneCentro=comune;
 		dataVaccinazione=data;
 		tipoVaccino=tipo;
-		if(idVaccinazione<0||idVaccinazione>65536)
+		if(idVaccinazione<0||idVaccinazione>65535)
 			throw new IllegalArgumentException();
 	}
 	public int getIdVaccinazione() {
