@@ -25,6 +25,10 @@ public class CentriVaccinali extends UnicastRemoteObject implements CentriVaccin
 		super();
 	}
 
+	public Boolean registraCentroVaccinale(CentroVaccinale centroVaccinale) throws RemoteException {
+		return db.insertCentroVaccinale(centroVaccinale);
+	}
+
 	public ArrayList<CentroVaccinale> cercaCentroVaccinale(String nome) throws RemoteException {
 		return db.listCentriVaccinali(nome);
 	}
@@ -35,7 +39,11 @@ public class CentriVaccinali extends UnicastRemoteObject implements CentriVaccin
 
 	public CentroVaccinale visualizzaInfoCentroVaccinale(String nome, String comune) throws RemoteException {
 		return db.selectCentroVaccinale(nome, comune);
-	}	
+	}
+
+	public Boolean registraVaccinato(Vaccinato vaccinato) throws RemoteException {
+		return db.insertVaccinato(vaccinato);
+	}
 
 	public Vaccinato visualizzaInfoVaccinato(int id) throws RemoteException {
 		return db.selectVaccinato(id);

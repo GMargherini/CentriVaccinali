@@ -51,7 +51,7 @@ public class DatabaseProxy {
 		String query= """
 				SELECT nome, comune
 				FROM CentriVaccinali
-				WHERE LOWER(nome) LIKE LOWER(?)
+				WHERE LOWER(nome) LIKE LOWER(?) AND nome<>'amministrazione'
 				ORDER BY comune""";
 		try {
 			pstmnt=connection.prepareStatement(query);
@@ -77,7 +77,7 @@ public class DatabaseProxy {
 		String query= """
 				SELECT nome, comune
 				FROM CentriVaccinali
-				WHERE comune=? AND tipo=?
+				WHERE comune=? AND tipo=? AND nome<>'amministrazione'
 				ORDER BY comune""";
 		try {
 			pstmnt=connection.prepareStatement(query);
@@ -167,7 +167,7 @@ public class DatabaseProxy {
 			ResultSet rs=pstmnt.executeQuery();
 			if(rs.next()) {
 				Vaccinato vaccinato = new Vaccinato(
-						rs.getShort("id_vaccinazione"),
+						rs.getInt("id_vaccinazione"),
 						rs.getString("codice_fiscale"),
 						rs.getString("nome_cognome"),
 						rs.getString("nome"),
@@ -220,7 +220,7 @@ public class DatabaseProxy {
 			ResultSet rs=pstmnt.executeQuery();
 			if(rs.next()) {
 				CittadinoRegistrato cittadinoRegistrato = new CittadinoRegistrato(
-						rs.getShort("id_vaccinazione"),
+						rs.getInt("id_vaccinazione"),
 						rs.getString("user_id"),
 						rs.getString("password"),
 						rs.getString("email")
@@ -230,6 +230,7 @@ public class DatabaseProxy {
 			}
 			return null;
 		} catch (SQLException e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -275,7 +276,7 @@ public class DatabaseProxy {
 			if(rs.next()) {
 				EventoAvverso eventoAvverso = new EventoAvverso(
 						rs.getString("sintomo"),
-						rs.getShort("id_vaccinazione"),
+						rs.getInt("id_vaccinazione"),
 						rs.getInt("severita"),
 						rs.getString("note"),
 						rs.getString("nome"),
@@ -308,7 +309,7 @@ public class DatabaseProxy {
 			while(rs.next()) {
 				EventoAvverso eventoAvverso = new EventoAvverso(
 						rs.getString("sintomo"),
-						rs.getShort("id_vaccinazione"),
+						rs.getInt("id_vaccinazione"),
 						rs.getInt("severita"),
 						rs.getString("note"),
 						rs.getString("nome"),

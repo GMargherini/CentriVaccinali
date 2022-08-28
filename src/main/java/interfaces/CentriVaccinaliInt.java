@@ -6,12 +6,18 @@
 package interfaces;
 
 import datamodel.*;
-
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public interface CentriVaccinaliInt extends Remote {
+	/**
+	 * Inserisce un nuovo centro vaccinale nel database.
+	 * @param centroVaccinale Il centro da inserire.
+	 * @return <code>true</code> se l'operazione va a buon fine, <code>false</code> altrimenti.
+	 * @throws RemoteException
+	 */
+	Boolean registraCentroVaccinale(CentroVaccinale centroVaccinale) throws RemoteException;
 	/**
 	 * Restituisce una lista dei centri vaccinali con nome contenete <code>nome</code>.
 	 * @param nome La stringa cercare.
@@ -37,7 +43,13 @@ public interface CentriVaccinaliInt extends Remote {
 	 * @throws RemoteException
 	 */
 	CentroVaccinale visualizzaInfoCentroVaccinale(String nome, String comune) throws RemoteException;
-
+	/**
+	 * Inserisce un nuovo vaccinato nel database.
+	 * @param vaccinato Il vaccinato da inserire.
+	 * @return <code>true</code> se l'operazione va a buon fine, <code>false</code> altrimenti.
+	 * @throws RemoteException
+	 */
+	Boolean registraVaccinato(Vaccinato vaccinato) throws RemoteException;
 	/**
 	 * Restituisce il vaccinato con codice identificativo uguale a <code>id</code>.
 	 * @param id Il codice univoco del vaccinato
