@@ -26,54 +26,81 @@ public class CentriVaccinali extends UnicastRemoteObject implements CentriVaccin
 		super();
 	}
 
+	/**
+	 * @see CentriVaccinaliInt
+	 */
 	public Boolean registraCentroVaccinale(CentroVaccinale centroVaccinale) throws RemoteException {
 		return db.insertCentroVaccinale(centroVaccinale);
 	}
-
+	/**
+	 * @see CentriVaccinaliInt
+	 */
 	public ArrayList<CentroVaccinale> cercaCentroVaccinale(String nome) throws RemoteException {
 		return db.listCentriVaccinali(nome);
 	}
-
+	/**
+	 * @see CentriVaccinaliInt
+	 */
 	public ArrayList<CentroVaccinale> cercaCentroVaccinale(String comune, String tipo) throws RemoteException {
 		return db.listCentriVaccinali(comune, tipo);
 	}
-
+	/**
+	 * @see CentriVaccinaliInt
+	 */
 	public CentroVaccinale visualizzaInfoCentroVaccinale(String nome, String comune) throws RemoteException {
 		return db.selectCentroVaccinale(nome, comune);
 	}
-
+	/**
+	 * @see CentriVaccinaliInt
+	 */
 	public Boolean registraVaccinato(Vaccinato vaccinato) throws RemoteException {
 		return db.insertVaccinato(vaccinato);
 	}
-
+	/**
+	 * @see CentriVaccinaliInt
+	 */
 	public Vaccinato visualizzaInfoVaccinato(int id) throws RemoteException {
 		return db.selectVaccinato(id);
 	}
-
+	/**
+	 * @see CentriVaccinaliInt
+	 */
 	public Boolean registraCittadino(CittadinoRegistrato cittadinoRegistrato) throws RemoteException {
 		return db.insertCittadinoRegistrato(cittadinoRegistrato);
 	}
-
+	/**
+	 * @see CentriVaccinaliInt
+	 */
 	public CittadinoRegistrato visualizzaInfoCittadinoRegistrato(String id) throws RemoteException {
 		return db.selectCittadinoRegistrato(id);
 	}
-
+	/**
+	 * @see CentriVaccinaliInt
+	 */
 	public Boolean newEventoAvverso(EventoAvverso eventoAvverso) throws RemoteException {
 		return db.insertEventoAvverso(eventoAvverso);
 	}
-
+	/**
+	 * @see CentriVaccinaliInt
+	 */
 	public ArrayList<EventoAvverso> eventiAvversi(int id) throws RemoteException {
 		return db.listEventiAvversi(id);
 	}
-
+	/**
+	 * @see CentriVaccinaliInt
+	 */
 	public ArrayList<AggregazioneEventi> aggregazioniEventi(String nome, String comune) throws RemoteException {
 		return db.listAggregazioniEventi(nome, comune);
 	}
-
+	/**
+	 * @see CentriVaccinaliInt
+	 */
 	public Boolean updateAggregazioneEventiServ() throws RemoteException {
 		return db.updateAggregazioniEventi();
 	}
-
+	/**
+	 * @see CentriVaccinaliInt
+	 */
 	public Boolean updateCentriVaccinaliServ() throws RemoteException {
 		return db.updateCentriVaccinali();
 	}
