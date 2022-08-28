@@ -33,10 +33,10 @@ public class Database {
 	/**
 	 * Chiude la connessione al database.
 	 */
-	public void closeConnection() {
+	public static void closeConnection() {
 		try {
 			connection.close();
-		} catch (SQLException e) {}
+		} catch (SQLException ignored) {}
 	}
 	/**
 	 * Restituisce una connessione al database.

@@ -15,14 +15,14 @@ public interface CentriVaccinaliInt extends Remote {
 	 * Inserisce un nuovo centro vaccinale nel database.
 	 * @param centroVaccinale Il centro da inserire.
 	 * @return <code>true</code> se l'operazione va a buon fine, <code>false</code> altrimenti.
-	 * @throws RemoteException
+	 * @throws RemoteException Se è avvenuta un'eccezione nella chiamata remota.
 	 */
 	Boolean registraCentroVaccinale(CentroVaccinale centroVaccinale) throws RemoteException;
 	/**
 	 * Restituisce una lista dei centri vaccinali con nome contenete <code>nome</code>.
 	 * @param nome La stringa cercare.
 	 * @return Una <code>ArrayList</code> di <code>CentroVaccinale</code>.
-	 * @throws RemoteException
+	 * @throws RemoteException Se è avvenuta un'eccezione nella chiamata remota.
 	 */
 	ArrayList<CentroVaccinale> cercaCentroVaccinale(String nome) throws RemoteException;
 
@@ -31,7 +31,7 @@ public interface CentriVaccinaliInt extends Remote {
 	 * @param comune Il comune del centro
 	 * @param tipo il tipo del centro
 	 * @return Una <code>ArrayList</code> di <code>CentroVaccinale</code>.
-	 * @throws RemoteException
+	 * @throws RemoteException Se è avvenuta un'eccezione nella chiamata remota.
 	 */
 	ArrayList<CentroVaccinale> cercaCentroVaccinale(String comune, String tipo) throws RemoteException;
 
@@ -40,21 +40,21 @@ public interface CentriVaccinaliInt extends Remote {
 	 * @param nome Il nome del centro.
 	 * @param comune il comune del centro.
 	 * @return Un oggetto di tipo <code>CentroVaccinale</code>.
-	 * @throws RemoteException
+	 * @throws RemoteException Se è avvenuta un'eccezione nella chiamata remota.
 	 */
 	CentroVaccinale visualizzaInfoCentroVaccinale(String nome, String comune) throws RemoteException;
 	/**
 	 * Inserisce un nuovo vaccinato nel database.
 	 * @param vaccinato Il vaccinato da inserire.
 	 * @return <code>true</code> se l'operazione va a buon fine, <code>false</code> altrimenti.
-	 * @throws RemoteException
+	 * @throws RemoteException Se è avvenuta un'eccezione nella chiamata remota.
 	 */
 	Boolean registraVaccinato(Vaccinato vaccinato) throws RemoteException;
 	/**
 	 * Restituisce il vaccinato con codice identificativo uguale a <code>id</code>.
 	 * @param id Il codice univoco del vaccinato
 	 * @return Un oggetto di tipo <code>>Vaccinato</code>.
-	 * @throws RemoteException
+	 * @throws RemoteException Se è avvenuta un'eccezione nella chiamata remota.
 	 */
 	Vaccinato visualizzaInfoVaccinato(int id) throws RemoteException;
 
@@ -62,7 +62,7 @@ public interface CentriVaccinaliInt extends Remote {
 	 * Inserisce un nuovo cittadino registrato nel database.
 	 * @param cittadinoRegistrato Il cittadino da inserire.
 	 * @return <code>true</code> se l'operazione va a buon fine, <code>false</code> altrimenti.
-	 * @throws RemoteException
+	 * @throws RemoteException Se è avvenuta un'eccezione nella chiamata remota.
 	 */
 	Boolean registraCittadino(CittadinoRegistrato cittadinoRegistrato) throws RemoteException;
 
@@ -70,7 +70,7 @@ public interface CentriVaccinaliInt extends Remote {
 	 * Restituisce il cittadino registrato con username uguale a <code>id</code>.
 	 * @param id L'username del cittadino.
 	 * @return Un oggetto di tipo <code>CittadinoRegistrato</code>.
-	 * @throws RemoteException
+	 * @throws RemoteException Se è avvenuta un'eccezione nella chiamata remota.
 	 */
 	CittadinoRegistrato visualizzaInfoCittadinoRegistrato(String id) throws RemoteException;
 
@@ -78,31 +78,15 @@ public interface CentriVaccinaliInt extends Remote {
 	 * Inserisce un nuovo evento avverso nel database.
 	 * @param eventoAvverso L'evento da inserire.
 	 * @return <code>true</code> se l'operazione va a buon fine, <code>false</code> altrimenti.
-	 * @throws RemoteException
+	 * @throws RemoteException Se è avvenuta un'eccezione nella chiamata remota.
 	 */
 	Boolean newEventoAvverso(EventoAvverso eventoAvverso) throws RemoteException;
-
-	/**
-	 * Restituisce l'evento avverso con sintomo uguale a <code>sintomo</code> e username uguale a <code>id</code>.
-	 * @param sintomo Il sintomo dell'evento.
-	 * @param id L'username del cittadino che ha segnalato l'evento.
-	 * @return un oggetto di tipo <code>EventoAvverso</code>.
-	 * @throws RemoteException
-	 */
-	EventoAvverso eventoAvversoServ(String sintomo, String id) throws RemoteException;
-
-	/**
-	 * Aggrega e inserisce nel database gli eventi avversi.
-	 * @return <code>true</code> se l'operazione va a buon fine, <code>false</code> altrimenti.
-	 * @throws RemoteException
-	 */
-	Boolean newAggregazioneEventi() throws RemoteException;
 
 	/**
 	 * Restituisce una lista di eventi avversi per il vaccinato identificato da <code>id</code>.
 	 * @param id Il codice della vaccinazione del vaccinato.
 	 * @return Una <code>ArrayList</code> di <code>EventoAvverso</code>.
-	 * @throws RemoteException
+	 * @throws RemoteException Se è avvenuta un'eccezione nella chiamata remota.
 	 */
 	ArrayList<EventoAvverso> eventiAvversi(int id) throws RemoteException;
 
@@ -111,21 +95,21 @@ public interface CentriVaccinaliInt extends Remote {
 	 * @param nome Il nome del centro vaccinale.
 	 * @param comune Il comune del centro vaccinale.
 	 * @return Una <code>ArrayList</code> di <code>AggregazioneEventi</code>.
-	 * @throws RemoteException
+	 * @throws RemoteException Se è avvenuta un'eccezione nella chiamata remota.
 	 */
 	ArrayList<AggregazioneEventi> aggregazioniEventi (String nome, String comune) throws RemoteException;
 
 	/**
 	 * Aggiorna la media delle severità e il numero di segnalazioni delle aggregazioni di eventi.
 	 * @return <code>true</code> se l'operazione va a buon fine, <code>false</code> altrimenti.
-	 * @throws RemoteException
+	 * @throws RemoteException Se è avvenuta un'eccezione nella chiamata remota.
 	 */
 	Boolean updateAggregazioneEventiServ() throws RemoteException;
 
 	/**
 	 * Aggiorna la media delle severità e il numero di segnalazioni dei centri vaccinali.
 	 * @return <code>true</code> se l'operazione va a buon fine, <code>false</code> altrimenti.
-	 * @throws RemoteException
+	 * @throws RemoteException Se è avvenuta un'eccezione nella chiamata remota.
 	 */
 	Boolean updateCentriVaccinaliServ() throws RemoteException;
 

@@ -5,6 +5,7 @@
  */
 package centrivaccinali;
 
+import database.Database;
 import database.DatabaseProxy;
 import datamodel.*;
 import interfaces.CentriVaccinaliInt;
@@ -19,7 +20,7 @@ import java.util.Scanner;
 
 
 public class CentriVaccinali extends UnicastRemoteObject implements CentriVaccinaliInt {
-	DatabaseProxy db;
+	private DatabaseProxy db;
 
 	public CentriVaccinali() throws RemoteException{
 		super();
@@ -61,14 +62,6 @@ public class CentriVaccinali extends UnicastRemoteObject implements CentriVaccin
 		return db.insertEventoAvverso(eventoAvverso);
 	}
 
-	public EventoAvverso eventoAvversoServ(String sintomo, String id) throws RemoteException {
-		return db.selectEventoAvverso(sintomo,id);
-	}
-
-	public Boolean newAggregazioneEventi() throws RemoteException {
-		return db.insertAggregazioneEventi();
-	}
-	
 	public ArrayList<EventoAvverso> eventiAvversi(int id) throws RemoteException {
 		return db.listEventiAvversi(id);
 	}
@@ -89,7 +82,7 @@ public class CentriVaccinali extends UnicastRemoteObject implements CentriVaccin
 		try {
 			CentriVaccinali server = new CentriVaccinali();
 			Scanner in=new Scanner(System.in);
-			String host,password,user;
+			String host,password,user,exit="";
 			System.out.println("Inserire host database: ");
 			host=in.next();
 			System.out.println("Inserire user database: ");
@@ -100,6 +93,14 @@ public class CentriVaccinali extends UnicastRemoteObject implements CentriVaccin
 			Registry registro = LocateRegistry.createRegistry(1099);
 			registro.rebind("Server", server);
 			System.out.println("Server ready");
+			while(!exit.equals("exit")){
+				System.out.println("Scrivere \"exit\" per uscire");
+				exit=in.next();
+			}
+			System.out.println("Disconnessione dal database");
+			Database.closeConnection();
+			System.out.println("Chiusura server");
+			unexportObject(server,false);
 		} catch (SQLException e) {
 			System.out.println("Accesso al database fallito");
 			System.exit(1);
