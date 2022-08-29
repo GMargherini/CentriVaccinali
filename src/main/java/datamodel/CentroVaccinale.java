@@ -7,6 +7,9 @@ package datamodel;
 
 import java.io.Serializable;
 
+/**
+ *
+ */
 public class CentroVaccinale implements Serializable {
 	private final String nome;
 	private final String comune;

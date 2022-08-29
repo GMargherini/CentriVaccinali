@@ -4,10 +4,11 @@
  * Margherini Giorgio, 744148, VA
  */
 package database;
-import java.io.File;
-import java.net.*;
 import java.sql.*;
 
+/**
+ *
+ */
 public class Database {
 	private static Database database;
 	private static Connection connection;

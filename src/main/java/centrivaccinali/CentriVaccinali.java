@@ -5,20 +5,18 @@
  */
 package centrivaccinali;
 
-import database.Database;
-import database.DatabaseProxy;
+import database.*;
 import datamodel.*;
 import interfaces.CentriVaccinaliInt;
-
-import java.rmi.registry.Registry;
-import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.*;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
-
+/**
+ *
+ */
 public class CentriVaccinali extends UnicastRemoteObject implements CentriVaccinaliInt {
 	private DatabaseProxy db;
 

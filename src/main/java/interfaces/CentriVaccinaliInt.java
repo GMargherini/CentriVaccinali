@@ -10,6 +10,9 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+/**
+ *
+ */
 public interface CentriVaccinaliInt extends Remote {
 	/**
 	 * Inserisce un nuovo centro vaccinale nel database.

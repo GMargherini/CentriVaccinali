@@ -7,6 +7,9 @@ package datamodel;
 
 import java.io.Serializable;
 
+/**
+ *
+ */
 public class CittadinoRegistrato implements Serializable {
 	private final int idVaccinazione;
 	private final String userId;

@@ -7,9 +7,11 @@ package database;
 
 import java.sql.*;
 import java.util.ArrayList;
-
 import datamodel.*;
 
+/**
+ *
+ */
 public class DatabaseProxy {
 	
 	Database db;

@@ -7,6 +7,9 @@ package datamodel;
 
 import java.io.Serializable;
 
+/**
+ *
+ */
 public class AggregazioneEventi implements Serializable {
 
 	private final String sintomo;

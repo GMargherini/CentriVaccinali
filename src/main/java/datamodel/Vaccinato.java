@@ -6,6 +6,10 @@
 package datamodel;
 import java.io.Serializable;
 import java.util.Date;
+
+/**
+ *
+ */
 public class Vaccinato implements Serializable {
 	private final int idVaccinazione;
 	private final String codiceFiscale;
