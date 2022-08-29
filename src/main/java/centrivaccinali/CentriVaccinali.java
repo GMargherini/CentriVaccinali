@@ -121,7 +121,7 @@ public class CentriVaccinali extends UnicastRemoteObject implements CentriVaccin
 			registro.rebind("Server", server);
 			System.out.println("Server ready");
 			while(!exit.equals("exit")){
-				System.out.println("Scrivere \"exit\" per uscire");
+				System.out.println("Digitare \"exit\" per uscire");
 				exit=in.next();
 			}
 			System.out.println("Disconnessione dal database");

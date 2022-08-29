@@ -52,7 +52,7 @@ public class DatabaseProxy {
 				SELECT nome, comune
 				FROM CentriVaccinali
 				WHERE LOWER(nome) LIKE LOWER(?) AND nome<>'amministrazione'
-				ORDER BY comune""";
+				ORDER BY comune, nome""";
 		try {
 			pstmnt=connection.prepareStatement(query);
 			pstmnt.setString(1, "%"+nome+"%");
@@ -78,7 +78,7 @@ public class DatabaseProxy {
 				SELECT nome, comune
 				FROM CentriVaccinali
 				WHERE comune=? AND tipo=? AND nome<>'amministrazione'
-				ORDER BY comune""";
+				ORDER BY comune, nome""";
 		try {
 			pstmnt=connection.prepareStatement(query);
 			pstmnt.setString(1, comune);
@@ -256,40 +256,7 @@ public class DatabaseProxy {
 			return false;
 		}
 	}
-	
-	/**
-	 * Restituisce l'evento avverso identificato da <code>sintomo</code> e <code>id</code>.
-	 * @param sintomo Il nome del sintomo.
-	 * @param id L'user id del cittadino che ha segnalato l'evento avverso.
-	 * @return Un oggetto di tipo<code>EventoAvverso</code> se l'evento esiste nel database, <code>null</code> altrimenti.
-	 */
-	public EventoAvverso selectEventoAvverso(String sintomo,String id) {
-		String query = """
-				SELECT *
-				FROM eventi_avversi
-				WHERE user_id=? AND sintomo=?""";
-		try {
-			pstmnt=connection.prepareStatement(query);
-			pstmnt.setString(1, id);
-			pstmnt.setString(2, sintomo);
-			ResultSet rs=pstmnt.executeQuery();
-			if(rs.next()) {
-				EventoAvverso eventoAvverso = new EventoAvverso(
-						rs.getString("sintomo"),
-						rs.getInt("id_vaccinazione"),
-						rs.getInt("severita"),
-						rs.getString("note"),
-						rs.getString("nome"),
-						rs.getString("comune")
-						);
-				rs.close();
-				return eventoAvverso;
-			}
-			return null;
-		} catch (SQLException e) {
-			return null;
-		}
-	}
+
 
 	/**
 	 *  Restituisce una lista di eventi avversi relativi all'utente <code>id</code>.
@@ -321,23 +288,6 @@ public class DatabaseProxy {
 			return result;
 		} catch (SQLException e) {
 			return null;
-		}
-	}
-	/**
-	 * Inserisce gli eventi avversi, aggregandoli per centro vaccinale, nel database.
-	 * @return <code>true</code> se l'operazione va a buon fine,  <code>false</code> altrimenti.
-	 */
-	public Boolean insertAggregazioneEventi() {
-		String query = """
-				INSERT INTO aggregazioni_eventi(sintomo, nome, comune)
-				select distinct sintomo, nome, comune
-				from eventi_avversi""";
-		try {
-			pstmnt=connection.prepareStatement(query);
-			pstmnt.executeUpdate();
-			return true;
-		} catch (SQLException e) {
-			return false;
 		}
 	}
 	
@@ -382,16 +332,16 @@ public class DatabaseProxy {
 	public Boolean updateAggregazioniEventi() {
 		String query =
 				"""
-						delete from aggregazioni_eventi;
-						insert into aggregazioni_eventi(sintomo,nome,comune)
-						select distinct sintomo,nome,comune from eventi_avversi;
-						UPDATE aggregazioni_eventi ae
-						SET numero_segnalazioni=(SELECT COUNT(*)
-								FROM CentriVaccinali cv, eventi_avversi ea
-								WHERE ea.nome=cv.nome AND ea.comune=cv.comune AND ae.sintomo=ea.sintomo),
-							media_severita=(SELECT AVG(severita)
-								FROM eventi_avversi ea, CentriVaccinali cv
-								WHERE ea.nome=cv.nome AND ea.comune=cv.comune AND ae.sintomo=ea.sintomo)""";
+				delete from aggregazioni_eventi;
+				insert into aggregazioni_eventi(sintomo,nome,comune)
+				select distinct sintomo,nome,comune from eventi_avversi;
+				UPDATE aggregazioni_eventi ae
+				SET numero_segnalazioni=(SELECT COUNT(*)
+				FROM eventi_avversi ea
+				WHERE ea.nome=ae.nome AND ea.comune=ae.comune AND ae.sintomo=ea.sintomo),
+				media_severita=(SELECT AVG(severita)
+				FROM eventi_avversi ea
+				WHERE ea.nome=ae.nome AND ea.comune=ae.comune AND ae.sintomo=ea.sintomo)""";
 		try {
 			pstmnt=connection.prepareStatement(query);
 			pstmnt.executeUpdate();
@@ -421,11 +371,5 @@ public class DatabaseProxy {
 		} catch (SQLException e) {
 			return false;
 		}
-	}
-	/**
-	 * Chiude la connessione al database
-	 */
-	public void closeConnection() {
-		db.closeConnection();
 	}
 }
